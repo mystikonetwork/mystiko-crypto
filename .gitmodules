@@ -1,0 +1,3 @@
+[submodule "packages/protocol/circuits"]
+	path = packages/protocol/circuits
+	url = git@github.com:mystikonetwork/mystiko-circuits.git
