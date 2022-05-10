@@ -7,7 +7,7 @@
   "types": "build/cjs/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mystikonetwork/mystiko-cryptography",
+    "url": "https://github.com/mystikonetwork/mystiko-crypto",
     "directory": "packages/protocol"
   },
   "author": {
