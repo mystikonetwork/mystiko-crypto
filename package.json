@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Cryptograhy related code of Mystiko.Network",
   "private": true,
-  "repository": "https://github.com/mystikonetwork/mystiko-cryptograhy",
+  "repository": "https://github.com/mystikonetwork/mystiko-crypto",
   "author": "Fitch",
   "license": "MIT",
   "scripts": {
