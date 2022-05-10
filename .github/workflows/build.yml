@@ -13,6 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.PACKAGES_TOKEN }}
           lfs: true
           submodules: recursive
       - uses: actions/setup-node@v2
