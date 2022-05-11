@@ -136,7 +136,7 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
   }
 
   public randomBytes(numBytes?: number): Buffer {
-    return this.bigIntToBuff(this.randomBigInt(numBytes || 32), numBytes);
+    return unsafeRandomBytes(numBytes || 32);
   }
 
   public secretKeyForVerification(rawSecretKey: Buffer): Buffer {

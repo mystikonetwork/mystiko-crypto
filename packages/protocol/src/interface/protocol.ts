@@ -63,6 +63,6 @@ export interface MystikoProtocol<
   zkVerify(proof: P, verifyingKeyFile: string | string[]): Promise<boolean>;
 }
 
-export interface ProtocolFactory {
-  create(): MystikoProtocol;
+export interface ProtocolFactory<PO = any> {
+  create(options?: PO): Promise<MystikoProtocol>;
 }

@@ -1,11 +1,13 @@
 import { MerkleTree, toBN } from '@mystikonetwork/utils';
-import { ZokratesCliProver } from '@mystikonetwork/zkp-node';
-import { MystikoProtocolV2 } from '../../../src';
+import { ZokratesCliProverFactory, ZokratesCliProverOptions } from '@mystikonetwork/zkp-node';
+import { MystikoProtocolV2, ProtocolFactoryV2 } from '../../../src';
 
 let protocol: MystikoProtocolV2;
+let factory: ProtocolFactoryV2;
 
-beforeAll(() => {
-  protocol = new MystikoProtocolV2(new ZokratesCliProver());
+beforeAll(async () => {
+  factory = new ProtocolFactoryV2<ZokratesCliProverOptions>(new ZokratesCliProverFactory());
+  protocol = await factory.create();
 });
 
 test('test zkProveRollup1', async () => {

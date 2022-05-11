@@ -1,10 +1,11 @@
 import { MerkleTree, toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
-import { ZokratesCliProver } from '@mystikonetwork/zkp-node';
+import { ZokratesCliProverFactory, ZokratesCliProverOptions } from '@mystikonetwork/zkp-node';
 import BN from 'bn.js';
 import { ethers } from 'ethers';
-import { CommitmentOutput, MystikoProtocolV2, TransactionV2 } from '../../../src';
+import { CommitmentOutput, MystikoProtocolV2, ProtocolFactoryV2, TransactionV2 } from '../../../src';
 
 let protocol: MystikoProtocolV2;
+let factory: ProtocolFactoryV2;
 
 async function generateTransaction(
   p: MystikoProtocolV2,
@@ -70,6 +71,11 @@ async function generateTransaction(
       p.commitment({
         publicKeys: { pkVerify: outVerifyPks[i], pkEnc: outEncPks[i] },
         amount: outAmounts[i],
+        randomSecrets: {
+          randomP: protocol.randomBigInt(protocol.randomSkSize),
+          randomS: protocol.randomBigInt(protocol.randomSkSize),
+          randomR: protocol.randomBigInt(protocol.randomSkSize),
+        },
       }),
     );
   }
@@ -111,8 +117,9 @@ async function generateTransaction(
   };
 }
 
-beforeAll(() => {
-  protocol = new MystikoProtocolV2(new ZokratesCliProver());
+beforeAll(async () => {
+  factory = new ProtocolFactoryV2<ZokratesCliProverOptions>(new ZokratesCliProverFactory());
+  protocol = await factory.create();
 });
 
 test('test commitment', async () => {
@@ -125,7 +132,7 @@ test('test commitment', async () => {
     amount: toBN(10),
   });
   const c2 = await protocol.commitment({
-    publicKeys: { pkVerify, pkEnc },
+    publicKeys: protocol.shieldedAddress(pkVerify, pkEnc),
     amount: toBN(10),
     encryptedNote: { skEnc, encryptedNote },
   });
