@@ -1,10 +1,13 @@
+import { MerkleTree, toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
+import { ZokratesCliProver } from '@mystikonetwork/zkp-node';
 import BN from 'bn.js';
 import { ethers } from 'ethers';
-import { MerkleTree, toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
-import { CommitmentV2, MystikoProtocolV2, TransactionV2, ZokratesCliRuntime } from '../../src';
+import { CommitmentOutput, MystikoProtocolV2, TransactionV2 } from '../../../src';
+
+let protocol: MystikoProtocolV2;
 
 async function generateTransaction(
-  protocol: MystikoProtocolV2,
+  p: MystikoProtocolV2,
   numInputs: number,
   numOutputs: number,
   programFile: string,
@@ -17,22 +20,27 @@ async function generateTransaction(
   const inEncSks: Buffer[] = [];
   const inAmounts: BN[] = [];
   for (let i = 0; i < numInputs; i += 1) {
-    const rawVerifySk = protocol.randomBytes(protocol.verifySkSize);
-    const rawEncSk = protocol.randomBytes(protocol.encSkSize);
-    inVerifySks.push(protocol.secretKeyForVerification(rawVerifySk));
-    inVerifyPks.push(protocol.publicKeyForVerification(rawVerifySk));
-    inEncSks.push(protocol.secretKeyForEncryption(rawEncSk));
-    inEncPks.push(protocol.publicKeyForEncryption(rawEncSk));
+    const rawVerifySk = p.randomBytes(p.verifySkSize);
+    const rawEncSk = p.randomBytes(p.encSkSize);
+    inVerifySks.push(p.secretKeyForVerification(rawVerifySk));
+    inVerifyPks.push(p.publicKeyForVerification(rawVerifySk));
+    inEncSks.push(p.secretKeyForEncryption(rawEncSk));
+    inEncPks.push(p.publicKeyForEncryption(rawEncSk));
     inAmounts.push(toDecimals(200));
   }
-  const inCommitmentsPromises: Promise<CommitmentV2>[] = [];
+  const inCommitmentsPromises: Promise<CommitmentOutput>[] = [];
   for (let i = 0; i < numInputs; i += 1) {
-    inCommitmentsPromises.push(protocol.commitment(inVerifyPks[i], inEncPks[i], inAmounts[i]));
+    inCommitmentsPromises.push(
+      p.commitment({
+        publicKeys: { pkVerify: inVerifyPks[i], pkEnc: inEncPks[i] },
+        amount: inAmounts[i],
+      }),
+    );
   }
   const inCommitmentsAll = await Promise.all(inCommitmentsPromises);
   const inCommitments = inCommitmentsAll.map((all) => all.commitmentHash);
-  const inPrivateNotes = inCommitmentsAll.map((all) => all.privateNote);
-  const merkleTree = new MerkleTree(inCommitments, { maxLevels: protocol.merkleTreeLevels });
+  const inPrivateNotes = inCommitmentsAll.map((all) => all.encryptedNote);
+  const merkleTree = new MerkleTree(inCommitments, { maxLevels: p.merkleTreeLevels });
   const allPaths: { pathElements: BN[]; pathIndices: number[] }[] = [];
   for (let i = 0; i < inCommitments.length; i += 1) {
     allPaths.push(merkleTree.path(i));
@@ -47,18 +55,23 @@ async function generateTransaction(
   const outVerifyPks: Buffer[] = [];
   const outEncPks: Buffer[] = [];
   for (let i = 0; i < numOutputs; i += 1) {
-    const rawVerifySk = protocol.randomBytes(protocol.verifySkSize);
-    const rawEncSk = protocol.randomBytes(protocol.encSkSize);
-    const verifyPk = protocol.publicKeyForVerification(rawVerifySk);
-    const encPk = protocol.publicKeyForEncryption(rawEncSk);
+    const rawVerifySk = p.randomBytes(p.verifySkSize);
+    const rawEncSk = p.randomBytes(p.encSkSize);
+    const verifyPk = p.publicKeyForVerification(rawVerifySk);
+    const encPk = p.publicKeyForEncryption(rawEncSk);
     outVerifyPks.push(verifyPk);
     outEncPks.push(encPk);
     outAmounts.push(toDecimals(50));
     rollupFeeAmounts.push(toDecimals(10));
   }
-  const outCommitmentPromises: Promise<CommitmentV2>[] = [];
+  const outCommitmentPromises: Promise<CommitmentOutput>[] = [];
   for (let i = 0; i < numOutputs; i += 1) {
-    outCommitmentPromises.push(protocol.commitment(outVerifyPks[i], outEncPks[i], outAmounts[i]));
+    outCommitmentPromises.push(
+      p.commitment({
+        publicKeys: { pkVerify: outVerifyPks[i], pkEnc: outEncPks[i] },
+        amount: outAmounts[i],
+      }),
+    );
   }
   const outCommitmentsAll = await Promise.all(outCommitmentPromises);
   const outCommitments = outCommitmentsAll.map((all) => all.commitmentHash);
@@ -98,14 +111,8 @@ async function generateTransaction(
   };
 }
 
-let protocol: MystikoProtocolV2;
-
-beforeAll(async () => {
-  // eslint-disable-next-line global-require
-  const { initialize } = require('zokrates-js/node');
-  const zokrates = await initialize();
-  const runtime = new ZokratesCliRuntime(zokrates);
-  protocol = new MystikoProtocolV2(runtime);
+beforeAll(() => {
+  protocol = new MystikoProtocolV2(new ZokratesCliProver());
 });
 
 test('test commitment', async () => {
@@ -113,11 +120,22 @@ test('test commitment', async () => {
   const skEnc = protocol.randomBytes();
   const pkVerify = protocol.publicKeyForVerification(skVerify);
   const pkEnc = protocol.publicKeyForEncryption(skEnc);
-  const { privateNote, commitmentHash } = await protocol.commitment(pkVerify, pkEnc, toBN(10));
-  const c2 = await protocol.commitmentFromEncryptedNote(pkVerify, pkEnc, skEnc, privateNote);
+  const { encryptedNote, commitmentHash } = await protocol.commitment({
+    publicKeys: { pkVerify, pkEnc },
+    amount: toBN(10),
+  });
+  const c2 = await protocol.commitment({
+    publicKeys: { pkVerify, pkEnc },
+    amount: toBN(10),
+    encryptedNote: { skEnc, encryptedNote },
+  });
   expect(c2.commitmentHash.toString()).toBe(commitmentHash.toString());
-  const c1: CommitmentV2 | undefined = await protocol
-    .commitmentFromEncryptedNote(pkVerify, pkEnc, protocol.randomBytes(), privateNote)
+  const c1: CommitmentOutput | undefined = await protocol
+    .commitment({
+      publicKeys: { pkVerify, pkEnc },
+      amount: toBN(10),
+      encryptedNote: { skEnc: protocol.randomBytes(), encryptedNote },
+    })
     .then((c3) => (c3.commitmentHash.toString() !== commitmentHash.toString() ? undefined : c3))
     .catch(() => undefined);
   expect(c1).toBe(undefined);

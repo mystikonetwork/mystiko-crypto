@@ -10,7 +10,7 @@ import {
   toHexNoPrefix,
   toString,
 } from '@mystikonetwork/utils';
-import { VerifyOptions, ZKProof, ZKProver } from '@mystikonetwork/zkp';
+import { ZKProof, ZKProver } from '@mystikonetwork/zkp';
 import createBlakeHash from 'blake-hash';
 import BN from 'bn.js';
 import bs58 from 'bs58';
@@ -447,9 +447,12 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
     });
   }
 
-  public async zkVerify(options: VerifyOptions): Promise<boolean> {
+  public async zkVerify(proof: ZKProof, verifyingKeyFile: string | string[]): Promise<boolean> {
     this.logger.debug('start verifying generated proofs...');
-    const result = await this.zkProver.verify(options);
+    const result = await this.zkProver.verify({
+      proof,
+      verifyingKeyFile: typeof verifyingKeyFile === 'string' ? [verifyingKeyFile] : verifyingKeyFile,
+    });
     this.logger.debug(`proof verification is done, result=${result}`);
     return Promise.resolve(result);
   }

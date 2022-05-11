@@ -1,14 +1,11 @@
 import { MerkleTree, toBN } from '@mystikonetwork/utils';
-import { MystikoProtocolV2, ZokratesCliRuntime } from '../../src';
+import { ZokratesCliProver } from '@mystikonetwork/zkp-node';
+import { MystikoProtocolV2 } from '../../../src';
 
 let protocol: MystikoProtocolV2;
 
-beforeAll(async () => {
-  // eslint-disable-next-line global-require
-  const { initialize } = require('zokrates-js/node');
-  const zokrates = await initialize();
-  const runtime = new ZokratesCliRuntime(zokrates);
-  protocol = new MystikoProtocolV2(runtime);
+beforeAll(() => {
+  protocol = new MystikoProtocolV2(new ZokratesCliProver());
 });
 
 test('test zkProveRollup1', async () => {

@@ -1,4 +1,4 @@
-import { VerifyOptions, ZKProof } from '@mystikonetwork/zkp';
+import { ZKProof } from '@mystikonetwork/zkp';
 import BN from 'bn.js';
 
 export type CommitmentInput = {
@@ -25,7 +25,6 @@ export interface MystikoProtocol<
   CI = CommitmentInput,
   CO = CommitmentOutput,
   P = ZKProof,
-  VO = VerifyOptions,
 > {
   get verifyPkSize(): number;
   get verifySkSize(): number;
@@ -61,7 +60,7 @@ export interface MystikoProtocol<
   sigPkHash(sigPk: Buffer, secretKey: Buffer): BN;
   zkProveTransaction(tx: TX): Promise<P>;
   zkProveRollup(rollup: R): Promise<P>;
-  zkVerify(options: VO): Promise<boolean>;
+  zkVerify(proof: P, verifyingKeyFile: string | string[]): Promise<boolean>;
 }
 
 export interface ProtocolFactory {

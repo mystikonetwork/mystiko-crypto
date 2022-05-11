@@ -1,34 +1,12 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import BN from 'bn.js';
-import { Proof } from 'zokrates-js';
 import { FIELD_SIZE, toBN, toBuff, toHex } from '@mystikonetwork/utils';
-import { MystikoProtocol } from '../src';
+import { ZokratesCliProver } from '@mystikonetwork/zkp-node';
+import { MystikoProtocolV2 } from '../../../src';
 
-class TestProtocol extends MystikoProtocol<any, any, any, any> {
-  public commitment(pkVerify: Buffer, pkEnc: Buffer, amount: BN, args: any): Promise<any> {
-    return Promise.reject(new Error('not implemented'));
-  }
+let testProtocol: MystikoProtocolV2;
 
-  public zkProveTransaction(transaction: any): Promise<Proof> {
-    return Promise.reject(new Error('not implemented'));
-  }
-
-  public zkVerify(proof: Proof, vkeyFile: string): Promise<boolean> {
-    return Promise.reject(new Error('not implemented'));
-  }
-
-  public commitmentFromEncryptedNote(
-    pkVerify: Buffer,
-    pkEnc: Buffer,
-    skEnc: Buffer,
-    encryptedNote: Buffer,
-  ): Promise<any> {
-    return Promise.reject(new Error('not implemented'));
-  }
-}
-
-const testProtocol = new TestProtocol();
+beforeAll(() => {
+  testProtocol = new MystikoProtocolV2(new ZokratesCliProver());
+});
 
 test('test randomBigInt', () => {
   const int1 = testProtocol.randomBigInt(8);

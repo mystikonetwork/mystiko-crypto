@@ -34,6 +34,7 @@
     "prettier": "yarn prettier:fix"
   },
   "devDependencies": {
+    "@mystikonetwork/zkp-node": "^0.1.0",
     "@tsconfig/recommended": "^1.0.1",
     "@types/bn.js": "^5.1.0",
     "@types/bs58": "^4.0.1",
@@ -69,7 +70,6 @@
     "ffjavascript": "^0.2.48",
     "loglevel": "^1.8.0",
     "randombytes": "^2.1.0",
-    "snarkjs": "^0.4.12",
-    "zokrates-js": "1.0.41"
+    "snarkjs": "^0.4.12"
   }
 }
