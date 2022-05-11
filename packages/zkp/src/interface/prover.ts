@@ -1,14 +1,14 @@
 import { ZKProof } from './proof';
 
 export type ProveOptions = {
-  programFile: string | string[];
-  abiFile: string | string[];
-  provingKeyFile: string | string[];
-  arguments: any[];
+  programFile: string[];
+  abiFile: string[];
+  provingKeyFile: string[];
+  inputs: any[];
 };
 
 export type VerifyOptions<P = ZKProof> = {
-  verifyingKeyFile: string | string[];
+  verifyingKeyFile: string[];
   proof: P;
 };
 
@@ -17,6 +17,6 @@ export interface ZKProver<P = ZKProof, PO = ProveOptions, VO = VerifyOptions<P>>
   verify(options: VO): Promise<boolean>;
 }
 
-export interface ZKProverFactory<P = ZKProof, PO = ProveOptions, VO = VerifyOptions<P>> {
-  create(): Promise<ZKProver<P, PO, VO>>;
+export interface ZKProverFactory<O = any, P = ZKProof, PO = ProveOptions, VO = VerifyOptions<P>> {
+  create(options?: O): Promise<ZKProver<P, PO, VO>>;
 }
