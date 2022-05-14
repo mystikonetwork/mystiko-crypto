@@ -1,0 +1,97 @@
+import { check, readCompressedFile, readJsonFile } from '@mystikonetwork/utils';
+import { ProveOptions, VerifyOptions, ZKProof, ZKProver } from '@mystikonetwork/zkp';
+import { spawn } from 'child_process';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+
+async function copyFile(tempDir: string, orig: string[], dest: string): Promise<string> {
+  check(orig.length > 0, 'file path cannot be empty');
+  const buffer = await readCompressedFile(orig);
+  fs.writeFileSync(path.join(tempDir, dest), buffer);
+  return Promise.resolve(path.join(tempDir, dest));
+}
+
+function createTempDirectory(): string {
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'ZokratesCliProver'));
+}
+
+function inputsToString(arg: any): string {
+  if (typeof arg === 'boolean') {
+    return arg ? '1' : '0';
+  }
+  return arg.toString();
+}
+
+function spawnProcess(command: string, args: string[]): Promise<string> {
+  const process = spawn(command, args);
+  let stdout: string = '';
+  let stderr: string = '';
+  process.stdout.on('data', (data: Buffer) => {
+    stdout = `${stdout}\n${data.toString()}`;
+  });
+  process.stderr.on('data', (data: Buffer) => /* istanbul ignore next */ {
+    stderr = `${stderr}\n${data.toString()}`;
+  });
+  return new Promise<string>((resolve, reject) => {
+    process.on('exit', (code) => {
+      if (code !== 0) {
+        reject(new Error(`${command} ${args.join(' ')} failed!\nstdout:\n${stdout}\nstderr:\n${stderr}`));
+      }
+      return resolve(`stdout:\n${stdout}\nstderr:\n${stderr}`);
+    });
+  });
+}
+
+export type ZokratesCliProverOptions = {
+  zokratesPath?: string;
+};
+
+export class ZokratesCliProver implements ZKProver {
+  private readonly zokratesPath: string;
+
+  constructor(options?: ZokratesCliProverOptions) {
+    this.zokratesPath = options?.zokratesPath || 'zokrates';
+  }
+
+  public async prove(options: ProveOptions): Promise<ZKProof> {
+    const tempFolder: string = createTempDirectory();
+    try {
+      const program = await copyFile(tempFolder, options.programFile, 'program');
+      const abi = await copyFile(tempFolder, options.abiFile, 'abi');
+      const provingKey = await copyFile(tempFolder, options.provingKeyFile, 'provingKeyFile');
+      const flatArgs = options.inputs.flat(100).map(inputsToString).join(' ');
+      const witness = path.join(tempFolder, 'witness');
+      const proofFile = path.join(tempFolder, 'proof.json');
+      const computeWitnessPromise = spawnProcess(
+        this.zokratesPath,
+        `compute-witness -s ${abi} -i ${program} -o ${witness} -a ${flatArgs}`.split(' '),
+      );
+      await computeWitnessPromise;
+      const generateProofPromise = spawnProcess(
+        this.zokratesPath,
+        `generate-proof -i ${program} -w ${witness} -p ${provingKey} -j ${proofFile}`.split(' '),
+      );
+      await generateProofPromise;
+      return (await readJsonFile(proofFile)) as ZKProof;
+    } finally {
+      fs.rmSync(tempFolder, { recursive: true, force: true });
+    }
+  }
+
+  public async verify(options: VerifyOptions): Promise<boolean> {
+    const tempFolder: string = createTempDirectory();
+    try {
+      const verifyingKey = await copyFile(tempFolder, options.verifyingKeyFile, 'program');
+      const proof = path.join(tempFolder, 'proof.json');
+      fs.writeFileSync(proof, JSON.stringify(options.proof));
+      const verifyResultPromise = spawnProcess(
+        this.zokratesPath,
+        `verify -j ${proof} -v ${verifyingKey}`.split(' '),
+      );
+      return await verifyResultPromise.then((output) => output.includes('PASSED'));
+    } finally {
+      fs.rmSync(tempFolder, { recursive: true, force: true });
+    }
+  }
+}

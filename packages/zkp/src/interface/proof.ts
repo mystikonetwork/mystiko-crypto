@@ -1,0 +1,24 @@
+export type Fq = string;
+export type Fq2 = [Fq, Fq];
+
+export type G1Affine = [Fq, Fq];
+export type G2Affine = [Fq2, Fq2];
+
+export interface ZKProofPoints {
+  a: G1Affine;
+  b: G2Affine;
+  c: G1Affine;
+}
+
+export interface ZKProof {
+  proof: ZKProofPoints;
+  inputs: string[];
+}
+
+export interface ZKVerificationKey {
+  alpha: G1Affine;
+  beta: G2Affine;
+  gamma: G2Affine;
+  delta: G2Affine;
+  gamma_abc: G1Affine[];
+}
