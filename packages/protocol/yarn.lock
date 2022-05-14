@@ -920,7 +920,7 @@
   resolved "https://npm.pkg.github.com/download/@mystikonetwork/fastfile/0.0.21/b3362f8527fa15a2d745c0b516c92d0a5ca0ceef4c2e103aac2d79305f0c4207#069a0d0d6a28a3f002fe97519456bbbd14880f9c"
   integrity sha512-o9vr4WoWEGord8+6ADBSulLO9arM2z0R5bOKj+GGPOFY/Zm8bg7alqRfuTvcxzll9TTk/rv7gDM4GnbBHhvyMA==
 
-"@mystikonetwork/utils@^0.1.0-beta.3":
+"@mystikonetwork/utils@^0.1.0":
   version "0.1.0"
   resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.1.0/2b0e6cb7df102b5c8e9702dada768b71a132fa7b36dd7ed446bafff9145385ee#a6cf70eab722a62768ffa928d25aedfc6f9819f9"
   integrity sha512-R6g05DqI2ZOlJVaugfwnUv1tL5Qsb7Yo1uHxszECceLMxRReIaX9RtAhT0dhiFS73sX1sYKzpmIHmIlKRp6pRQ==
@@ -6875,8 +6875,3 @@ yargs@^4.8.1:
     window-size "^0.2.0"
     y18n "^3.2.1"
     yargs-parser "^2.4.1"
-
-zokrates-js@1.0.41:
-  version "1.0.41"
-  resolved "https://registry.yarnpkg.com/zokrates-js/-/zokrates-js-1.0.41.tgz#6af4630d1e88f1a52208c9649531b01c365c522d"
-  integrity sha512-lTBcmv3Tbk8MPphLP1t3ElRayXxKVMUQHOtCQdnTfVyeERHxcVfdaQ/ymTH3sqafSiiT5+F8zchfdZpC//LXuw==
