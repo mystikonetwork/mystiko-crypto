@@ -278,7 +278,8 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
   }
 
   public serialNumber(skVerify: Buffer, randomP: BN): BN {
-    return this.poseidonHash([randomP, this.buffToBigInt(skVerify)]);
+    const nullifierKey = this.poseidonHash([this.buffToBigInt(skVerify)]);
+    return this.poseidonHash([randomP, nullifierKey]);
   }
 
   public sigPkHash(sigPk: Buffer, secretKey: Buffer) {
