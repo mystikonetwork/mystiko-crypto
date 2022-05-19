@@ -12,7 +12,4 @@ module.exports = {
       },
     },
   },
-  moduleNameMapper: {
-    '^zokrates-js': 'zokrates-js/node',
-  },
 };

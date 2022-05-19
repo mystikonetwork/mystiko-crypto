@@ -1,5 +1,5 @@
 import { MerkleTree, toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
-import { ZokratesCliProverFactory, ZokratesCliProverOptions } from '@mystikonetwork/zkp-node';
+import { ZokratesNodeProverFactory, ZokratesNodeProverOptions } from '@mystikonetwork/zkp-node';
 import BN from 'bn.js';
 import { ethers } from 'ethers';
 import { CommitmentOutput, MystikoProtocolV2, ProtocolFactoryV2, TransactionV2 } from '../../../src';
@@ -118,7 +118,7 @@ async function generateTransaction(
 }
 
 beforeAll(async () => {
-  factory = new ProtocolFactoryV2<ZokratesCliProverOptions>(new ZokratesCliProverFactory());
+  factory = new ProtocolFactoryV2<ZokratesNodeProverOptions>(new ZokratesNodeProverFactory());
   protocol = await factory.create();
 });
 

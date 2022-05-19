@@ -1,10 +1,10 @@
-import { ZokratesCliProver, ZokratesCliProverFactory } from '../../src';
+import { ZokratesNodeProver, ZokratesNodeProverFactory } from '../../src';
 
-let factory: ZokratesCliProverFactory;
-let prover: ZokratesCliProver;
+let factory: ZokratesNodeProverFactory;
+let prover: ZokratesNodeProver;
 
 beforeAll(async () => {
-  factory = new ZokratesCliProverFactory();
+  factory = new ZokratesNodeProverFactory();
   prover = await factory.create();
 });
 
@@ -49,4 +49,20 @@ test('test prove', async () => {
       inputs: [true, 2, '4'],
     }),
   ).rejects.toThrow();
+});
+
+test('test prove with wasm', async () => {
+  prover = await factory.create({ zokratesPath: 'non-existing_zokrates' });
+  const proof = await prover.prove({
+    programFile: ['tests/files/program'],
+    abiFile: ['tests/files/abi.json'],
+    provingKeyFile: ['tests/files/proving.key'],
+    inputs: ['1', '0', '1'],
+  });
+  expect(
+    await prover.verify({
+      verifyingKeyFile: ['tests/files/verification.key'],
+      proof,
+    }),
+  ).toBe(true);
 });
