@@ -1,9 +1,12 @@
 import { check, readCompressedFile, readJsonFile } from '@mystikonetwork/utils';
-import { ProveOptions, VerifyOptions, ZKProof, ZKProver } from '@mystikonetwork/zkp';
+import { ProveOptions, VerifyOptions, ZKProof } from '@mystikonetwork/zkp';
+import { ZokratesWasmProver } from '@mystikonetwork/zkp-wasm';
 import { spawn } from 'child_process';
+import commandExists from 'command-exists';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import { ZoKratesProvider } from 'zokrates-js';
 
 async function copyFile(tempDir: string, orig: string[], dest: string): Promise<string> {
   check(orig.length > 0, 'file path cannot be empty');
@@ -13,7 +16,7 @@ async function copyFile(tempDir: string, orig: string[], dest: string): Promise<
 }
 
 function createTempDirectory(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'ZokratesCliProver'));
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'ZokratesNodeProver'));
 }
 
 function inputsToString(arg: any): string {
@@ -43,55 +46,83 @@ function spawnProcess(command: string, args: string[]): Promise<string> {
   });
 }
 
-export type ZokratesCliProverOptions = {
+export type ZokratesNodeProverOptions = {
   zokratesPath?: string;
 };
 
-export class ZokratesCliProver implements ZKProver {
+export class ZokratesNodeProver extends ZokratesWasmProver {
   private readonly zokratesPath: string;
 
-  constructor(options?: ZokratesCliProverOptions) {
+  private cliExists?: boolean;
+
+  constructor(zokratesProvider: ZoKratesProvider, options?: ZokratesNodeProverOptions) {
+    super(zokratesProvider);
     this.zokratesPath = options?.zokratesPath || 'zokrates';
   }
 
   public async prove(options: ProveOptions): Promise<ZKProof> {
-    const tempFolder: string = createTempDirectory();
-    try {
-      const program = await copyFile(tempFolder, options.programFile, 'program');
-      const abi = await copyFile(tempFolder, options.abiFile, 'abi');
-      const provingKey = await copyFile(tempFolder, options.provingKeyFile, 'provingKeyFile');
-      const flatArgs = options.inputs.flat(100).map(inputsToString).join(' ');
-      const witness = path.join(tempFolder, 'witness');
-      const proofFile = path.join(tempFolder, 'proof.json');
-      const computeWitnessPromise = spawnProcess(
-        this.zokratesPath,
-        `compute-witness -s ${abi} -i ${program} -o ${witness} -a ${flatArgs}`.split(' '),
-      );
-      await computeWitnessPromise;
-      const generateProofPromise = spawnProcess(
-        this.zokratesPath,
-        `generate-proof -i ${program} -w ${witness} -p ${provingKey} -j ${proofFile}`.split(' '),
-      );
-      await generateProofPromise;
-      return (await readJsonFile(proofFile)) as ZKProof;
-    } finally {
-      fs.rmSync(tempFolder, { recursive: true, force: true });
+    const cliExists = await this.zokratesCliExists();
+    if (cliExists) {
+      const tempFolder: string = createTempDirectory();
+      try {
+        const program = await copyFile(tempFolder, options.programFile, 'program');
+        const abi = await copyFile(tempFolder, options.abiFile, 'abi');
+        const provingKey = await copyFile(tempFolder, options.provingKeyFile, 'provingKeyFile');
+        const flatArgs = options.inputs.flat(100).map(inputsToString).join(' ');
+        const witness = path.join(tempFolder, 'witness');
+        const proofFile = path.join(tempFolder, 'proof.json');
+        const computeWitnessPromise = spawnProcess(
+          this.zokratesPath,
+          `compute-witness -s ${abi} -i ${program} -o ${witness} -a ${flatArgs}`.split(' '),
+        );
+        await computeWitnessPromise;
+        const generateProofPromise = spawnProcess(
+          this.zokratesPath,
+          `generate-proof -i ${program} -w ${witness} -p ${provingKey} -j ${proofFile}`.split(' '),
+        );
+        await generateProofPromise;
+        return (await readJsonFile(proofFile)) as ZKProof;
+      } finally {
+        fs.rmSync(tempFolder, { recursive: true, force: true });
+      }
+    } else {
+      return super.prove(options);
     }
   }
 
   public async verify(options: VerifyOptions): Promise<boolean> {
-    const tempFolder: string = createTempDirectory();
-    try {
-      const verifyingKey = await copyFile(tempFolder, options.verifyingKeyFile, 'program');
-      const proof = path.join(tempFolder, 'proof.json');
-      fs.writeFileSync(proof, JSON.stringify(options.proof));
-      const verifyResultPromise = spawnProcess(
-        this.zokratesPath,
-        `verify -j ${proof} -v ${verifyingKey}`.split(' '),
-      );
-      return await verifyResultPromise.then((output) => output.includes('PASSED'));
-    } finally {
-      fs.rmSync(tempFolder, { recursive: true, force: true });
+    const cliExists = await this.zokratesCliExists();
+    if (cliExists) {
+      const tempFolder: string = createTempDirectory();
+      try {
+        const verifyingKey = await copyFile(tempFolder, options.verifyingKeyFile, 'program');
+        const proof = path.join(tempFolder, 'proof.json');
+        fs.writeFileSync(proof, JSON.stringify(options.proof));
+        const verifyResultPromise = spawnProcess(
+          this.zokratesPath,
+          `verify -j ${proof} -v ${verifyingKey}`.split(' '),
+        );
+        return await verifyResultPromise.then((output) => output.includes('PASSED'));
+      } finally {
+        fs.rmSync(tempFolder, { recursive: true, force: true });
+      }
+    } else {
+      return super.verify(options);
     }
+  }
+
+  private zokratesCliExists(): Promise<boolean> {
+    if (this.cliExists === undefined) {
+      return commandExists(this.zokratesPath)
+        .then(() => {
+          this.cliExists = true;
+          return this.cliExists;
+        })
+        .catch(() => {
+          this.cliExists = false;
+          return this.cliExists;
+        });
+    }
+    return Promise.resolve(this.cliExists);
   }
 }
