@@ -915,15 +915,14 @@
   resolved "https://npm.pkg.github.com/download/@mystikonetwork/fastfile/0.0.21/b3362f8527fa15a2d745c0b516c92d0a5ca0ceef4c2e103aac2d79305f0c4207#069a0d0d6a28a3f002fe97519456bbbd14880f9c"
   integrity sha512-o9vr4WoWEGord8+6ADBSulLO9arM2z0R5bOKj+GGPOFY/Zm8bg7alqRfuTvcxzll9TTk/rv7gDM4GnbBHhvyMA==
 
-"@mystikonetwork/utils@^0.1.0":
-  version "0.1.0"
-  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.1.0/2b0e6cb7df102b5c8e9702dada768b71a132fa7b36dd7ed446bafff9145385ee#a6cf70eab722a62768ffa928d25aedfc6f9819f9"
-  integrity sha512-R6g05DqI2ZOlJVaugfwnUv1tL5Qsb7Yo1uHxszECceLMxRReIaX9RtAhT0dhiFS73sX1sYKzpmIHmIlKRp6pRQ==
+"@mystikonetwork/utils@^0.1.1":
+  version "0.1.1"
+  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.1.1/effb96784b6ae9b3179c32410b64591cbc51695aa3884c52593e5877fd900b8f#e13c45b613188865cc94c96bd2c9d20c742d15b4"
+  integrity sha512-qbv3X6Es0d4JzDxk9uun/+qEecLkVQaOJO533XzL283rZzxWfySWgGgcbcPQZr/BWrAsdyUy8Grajnoz01JQhA==
   dependencies:
     "@mystikonetwork/fastfile" "^0.0.21"
     axios "^0.26.1"
     bn.js "^5.2.0"
-    circomlibjs "^0.0.8"
     ethers "^5.5.3"
     loglevel "^1.8.0"
     loglevel-plugin-prefix "^0.8.4"
