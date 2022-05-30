@@ -1,9 +1,9 @@
 /* eslint-disable class-methods-use-this */
+import { MerkleTree } from '@mystikonetwork/merkle';
 import {
   check,
   FIELD_SIZE,
   logger as rootLogger,
-  MerkleTree,
   toBN,
   toFixedLenHexNoPrefix,
   toHex,
