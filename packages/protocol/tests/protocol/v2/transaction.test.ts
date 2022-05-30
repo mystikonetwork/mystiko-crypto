@@ -1,4 +1,5 @@
-import { MerkleTree, toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
+import { MerkleTree } from '@mystikonetwork/merkle';
+import { toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
 import { ZokratesNodeProverFactory, ZokratesNodeProverOptions } from '@mystikonetwork/zkp-node';
 import BN from 'bn.js';
 import { ethers } from 'ethers';

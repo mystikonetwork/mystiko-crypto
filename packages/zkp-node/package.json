@@ -1,6 +1,6 @@
 {
   "name": "@mystikonetwork/zkp-node",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Zero-knowledge proof NodeJS code of Mystiko.Network",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
@@ -51,9 +51,9 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@mystikonetwork/utils": "^0.1.0",
-    "@mystikonetwork/zkp": "^0.1.2",
-    "@mystikonetwork/zkp-wasm": "^0.1.2",
+    "@mystikonetwork/utils": "^0.1.1",
+    "@mystikonetwork/zkp": "^0.1.3",
+    "@mystikonetwork/zkp-wasm": "^0.1.3",
     "command-exists": "^1.2.9",
     "zokrates-js": "1.0.41"
   }

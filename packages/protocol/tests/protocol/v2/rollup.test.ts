@@ -1,4 +1,5 @@
-import { MerkleTree, toBN } from '@mystikonetwork/utils';
+import { MerkleTree } from '@mystikonetwork/merkle';
+import { toBN } from '@mystikonetwork/utils';
 import { ZokratesNodeProverFactory, ZokratesNodeProverOptions } from '@mystikonetwork/zkp-node';
 import { MystikoProtocolV2, ProtocolFactoryV2 } from '../../../src';
 
