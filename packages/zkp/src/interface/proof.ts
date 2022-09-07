@@ -4,14 +4,8 @@ export type Fq2 = [Fq, Fq];
 export type G1Affine = [Fq, Fq];
 export type G2Affine = [Fq2, Fq2];
 
-export interface ZKProofPoints {
-  a: G1Affine;
-  b: G2Affine;
-  c: G1Affine;
-}
-
 export interface ZKProof {
-  proof: ZKProofPoints;
+  proof: object;
   inputs: string[];
 }
 

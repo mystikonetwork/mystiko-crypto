@@ -70,10 +70,14 @@ export class ZokratesNodeProver extends ZokratesWasmProver {
         const provingKey = await copyFile(tempFolder, options.provingKeyFile, 'provingKeyFile');
         const flatArgs = options.inputs.flat(100).map(inputsToString).join(' ');
         const witness = path.join(tempFolder, 'witness');
+        const circomWitness = path.join(tempFolder, 'circom.wtns');
         const proofFile = path.join(tempFolder, 'proof.json');
         const computeWitnessPromise = spawnProcess(
           this.zokratesPath,
-          `compute-witness -s ${abi} -i ${program} -o ${witness} -a ${flatArgs}`.split(' '),
+          (
+            `compute-witness -s ${abi} -i ${program}` +
+            ` -o ${witness} -a ${flatArgs} --circom-witness ${circomWitness}`
+          ).split(' '),
         );
         await computeWitnessPromise;
         const generateProofPromise = spawnProcess(

@@ -55,6 +55,6 @@
     "@mystikonetwork/zkp": "^0.1.3",
     "@mystikonetwork/zkp-wasm": "^0.1.3",
     "command-exists": "^1.2.9",
-    "zokrates-js": "1.0.41"
+    "zokrates-js": "^1.1.3"
   }
 }
