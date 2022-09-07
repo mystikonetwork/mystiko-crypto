@@ -70,15 +70,19 @@ export class ZokratesNodeProver extends ZokratesWasmProver {
         const provingKey = await copyFile(tempFolder, options.provingKeyFile, 'provingKeyFile');
         const flatArgs = options.inputs.flat(100).map(inputsToString).join(' ');
         const witness = path.join(tempFolder, 'witness');
+        const circomWitness = path.join(tempFolder, 'circom.wtns');
         const proofFile = path.join(tempFolder, 'proof.json');
         const computeWitnessPromise = spawnProcess(
           this.zokratesPath,
-          `compute-witness -s ${abi} -i ${program} -o ${witness} -a ${flatArgs}`.split(' '),
+          (
+            `compute-witness -s ${abi} -i ${program}` +
+            ` -o ${witness} -a ${flatArgs} --circom-witness ${circomWitness}`
+          ).split(' '),
         );
         await computeWitnessPromise;
         const generateProofPromise = spawnProcess(
           this.zokratesPath,
-          `generate-proof -i ${program} -w ${witness} -p ${provingKey} -j ${proofFile}`.split(' '),
+          `generate-proof -i ${program} -w ${witness} -p ${provingKey} -j ${proofFile} -b bellman`.split(' '),
         );
         await generateProofPromise;
         return (await readJsonFile(proofFile)) as ZKProof;
@@ -100,7 +104,7 @@ export class ZokratesNodeProver extends ZokratesWasmProver {
         fs.writeFileSync(proof, JSON.stringify(options.proof));
         const verifyResultPromise = spawnProcess(
           this.zokratesPath,
-          `verify -j ${proof} -v ${verifyingKey}`.split(' '),
+          `verify -j ${proof} -v ${verifyingKey} -b bellman`.split(' '),
         );
         return await verifyResultPromise.then((output) => output.includes('PASSED'));
       } finally {

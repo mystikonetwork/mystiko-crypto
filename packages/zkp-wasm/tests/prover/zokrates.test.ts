@@ -6,7 +6,13 @@ beforeAll(async () => {
   // eslint-disable-next-line global-require
   const { initialize } = require('zokrates-js/node');
   const zokratesProvider = await initialize();
-  prover = new ZokratesWasmProver(zokratesProvider);
+  prover = new ZokratesWasmProver(
+    zokratesProvider.withOptions({
+      backend: 'bellman',
+      scheme: 'g16',
+      curve: 'bn128',
+    }),
+  );
 });
 
 test('test prove', async () => {

@@ -33,6 +33,8 @@ export interface MystikoProtocol<
   get randomSkSize(): number;
   get amountSize(): number;
   get merkleTreeLevels(): number;
+  get numOfAuditors(): number;
+  get auditingThreshold(): number;
   buffToBigInt(buff: Buffer): BN;
   bigIntToBuff(bigInt: BN, numBytes?: number): Buffer;
   randomBigInt(numBytes?: number): BN;
