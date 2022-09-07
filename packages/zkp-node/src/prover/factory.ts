@@ -8,7 +8,15 @@ export class ZokratesNodeProverFactory implements ZKProverFactory<ZokratesNodePr
     // eslint-disable-next-line global-require
     const { initialize } = require('zokrates-js/node');
     return initialize().then(
-      (zokratesProvider: ZoKratesProvider) => new ZokratesNodeProver(zokratesProvider, options),
+      (zokratesProvider: ZoKratesProvider) =>
+        new ZokratesNodeProver(
+          zokratesProvider.withOptions({
+            backend: 'bellman',
+            scheme: 'g16',
+            curve: 'bn128',
+          }),
+          options,
+        ),
     );
   }
 }

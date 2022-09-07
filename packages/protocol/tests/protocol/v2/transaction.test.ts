@@ -1,3 +1,4 @@
+import { ECIES } from '@mystikonetwork/ecies';
 import { MerkleTree } from '@mystikonetwork/merkle';
 import { toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
 import { ZokratesNodeProverFactory, ZokratesNodeProverOptions } from '@mystikonetwork/zkp-node';
@@ -90,6 +91,10 @@ async function generateTransaction(
     .sub(outAmounts.reduce((a, b) => a.add(b), new BN(0)))
     .sub(rollupFeeAmounts.reduce((a, b) => a.add(b), new BN(0)))
     .sub(relayerFeeAmount);
+  const auditorPublicKeys: BN[] = [];
+  for (let i = 0; i < protocol.numOfAuditors; i += 1) {
+    auditorPublicKeys.push(ECIES.publicKey(ECIES.generateSecretKey()));
+  }
   return {
     numInputs,
     numOutputs,
@@ -115,6 +120,7 @@ async function generateTransaction(
     programFile,
     abiFile,
     provingKeyFile,
+    auditorPublicKeys,
   };
 }
 

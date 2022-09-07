@@ -1,5 +1,7 @@
 /* eslint-disable class-methods-use-this */
+import { ECIES } from '@mystikonetwork/ecies';
 import { MerkleTree } from '@mystikonetwork/merkle';
+import { SecretSharing } from '@mystikonetwork/secret-share';
 import {
   check,
   FIELD_SIZE,
@@ -55,6 +57,7 @@ export interface TransactionV2 {
   programFile: string | string[];
   abiFile: string | string[];
   provingKeyFile: string | string[];
+  auditorPublicKeys: BN[];
 }
 
 export interface RollupV2 {
@@ -101,6 +104,14 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
 
   public get merkleTreeLevels(): number {
     return 20;
+  }
+
+  public get numOfAuditors(): number {
+    return 5;
+  }
+
+  public get auditingThreshold(): number {
+    return 3;
   }
 
   public buffToBigInt(buff: Buffer): BN {
@@ -381,6 +392,19 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       serialNumbers.push(this.serialNumber(tx.inVerifySks[i], inRandomPs[i]));
       sigHashes.push(this.sigPkHash(tx.sigPk, tx.inVerifySks[i]));
     }
+    const commonSk = ECIES.generateSecretKey();
+    const commonPk = ECIES.publicKey(commonSk);
+    const unpackedCommonPk = ECIES.unpackPublicKey(commonPk);
+    const unpackedAuditorPublicKeys = tx.auditorPublicKeys.map((pk) => {
+      const unpacked = ECIES.unpackPublicKey(pk);
+      return [unpacked.x.toString(), unpacked.y.toString()];
+    });
+    const commitmentSecretShares = tx.inCommitments.map((inCommitment) =>
+      SecretSharing.split(inCommitment, this.numOfAuditors, this.auditingThreshold),
+    );
+    const encryptedCommitmentSecretShares = commitmentSecretShares.map(({ shares }) =>
+      shares.map((share, index) => ECIES.encrypt(share.y, tx.auditorPublicKeys[index], commonSk).toString()),
+    );
     const inputs: any[] = [
       tx.treeRoot.toString(),
       serialNumbers.map((bn) => bn.toString()),
@@ -390,6 +414,9 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       tx.relayerFeeAmount.toString(),
       tx.outCommitments.map((bn) => bn.toString()),
       tx.rollupFeeAmounts.map((bn) => bn.toString()),
+      [unpackedCommonPk.x.toString(), unpackedCommonPk.y.toString()],
+      unpackedAuditorPublicKeys,
+      encryptedCommitmentSecretShares,
       tx.inCommitments.map((bn) => bn.toString()),
       inAmounts.map((bn) => bn.toString()),
       inRandomPs.map((bn) => bn.toString()),
@@ -404,6 +431,9 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       tx.outRandomRs.map((bn) => bn.toString()),
       tx.outRandomSs.map((bn) => bn.toString()),
       tx.outVerifyPks.map((bn) => this.buffToBigInt(bn).toString()),
+      commonSk.toString(),
+      commitmentSecretShares.map((share) => share.coefficients.map((co) => co.toString())),
+      commitmentSecretShares.map((share) => share.shares.map((s) => s.y.toString())),
     ];
     const proof = await this.zkProver.prove({
       programFile: typeof tx.programFile === 'string' ? [tx.programFile] : tx.programFile,
@@ -495,6 +525,10 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
         `pathElements length does not equal to ${this.merkleTreeLevels}`,
       );
     });
+    check(
+      tx.auditorPublicKeys.length === this.numOfAuditors,
+      `auditorPublicKeys length does not equal to ${this.numOfAuditors}`,
+    );
   }
 
   private static isPowerOfTwo(aNumber: number): boolean {
