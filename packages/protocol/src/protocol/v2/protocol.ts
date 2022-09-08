@@ -397,7 +397,7 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
     const unpackedCommonPk = ECIES.unpackPublicKey(commonPk);
     const unpackedAuditorPublicKeys = tx.auditorPublicKeys.map((pk) => {
       const unpacked = ECIES.unpackPublicKey(pk);
-      return [unpacked.x.toString(), unpacked.y.toString()];
+      return [unpacked.x, unpacked.y];
     });
     const commitmentSecretShares = tx.inCommitments.map((inCommitment) =>
       SecretSharing.split(inCommitment, this.numOfAuditors, this.auditingThreshold),
@@ -414,8 +414,10 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       tx.relayerFeeAmount.toString(),
       tx.outCommitments.map((bn) => bn.toString()),
       tx.rollupFeeAmounts.map((bn) => bn.toString()),
-      [unpackedCommonPk.x.toString(), unpackedCommonPk.y.toString()],
-      unpackedAuditorPublicKeys,
+      unpackedCommonPk.x.andln(1).toString(),
+      unpackedCommonPk.y.toString(),
+      unpackedAuditorPublicKeys.map((keys) => keys[0].andln(1).toString()),
+      unpackedAuditorPublicKeys.map((keys) => keys[1].toString()),
       encryptedCommitmentSecretShares,
       tx.inCommitments.map((bn) => bn.toString()),
       inAmounts.map((bn) => bn.toString()),
@@ -431,6 +433,8 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       tx.outRandomRs.map((bn) => bn.toString()),
       tx.outRandomSs.map((bn) => bn.toString()),
       tx.outVerifyPks.map((bn) => this.buffToBigInt(bn).toString()),
+      unpackedCommonPk.x.toString(),
+      unpackedAuditorPublicKeys.map((keys) => keys[0].toString()),
       commonSk.toString(),
       commitmentSecretShares.map((share) => share.coefficients.map((co) => co.toString())),
       commitmentSecretShares.map((share) => share.shares.map((s) => s.y.toString())),
