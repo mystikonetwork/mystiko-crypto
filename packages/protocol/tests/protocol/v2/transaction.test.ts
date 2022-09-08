@@ -91,6 +91,7 @@ async function generateTransaction(
     .sub(outAmounts.reduce((a, b) => a.add(b), new BN(0)))
     .sub(rollupFeeAmounts.reduce((a, b) => a.add(b), new BN(0)))
     .sub(relayerFeeAmount);
+  const randomAuditingSecretKey = ECIES.generateSecretKey();
   const auditorPublicKeys: BN[] = [];
   for (let i = 0; i < protocol.numOfAuditors; i += 1) {
     auditorPublicKeys.push(ECIES.publicKey(ECIES.generateSecretKey()));
@@ -120,6 +121,7 @@ async function generateTransaction(
     programFile,
     abiFile,
     provingKeyFile,
+    randomAuditingSecretKey,
     auditorPublicKeys,
   };
 }
