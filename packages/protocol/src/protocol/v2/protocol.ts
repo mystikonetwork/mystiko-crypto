@@ -58,7 +58,7 @@ export interface TransactionV2 {
   abiFile: string | string[];
   provingKeyFile: string | string[];
   randomAuditingSecretKey: BN;
-  auditorPublicKeys: BN[];
+  auditorPublicKeys: Buffer[];
 }
 
 export interface RollupV2 {
@@ -416,9 +416,9 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       tx.relayerFeeAmount.toString(),
       tx.outCommitments.map((bn) => bn.toString()),
       tx.rollupFeeAmounts.map((bn) => bn.toString()),
-      unpackedRandomAuditingPublicKey.x.andln(1).toString(),
+      MystikoProtocolV2.isNegX(unpackedRandomAuditingPublicKey.x),
       unpackedRandomAuditingPublicKey.y.toString(),
-      unpackedAuditorPublicKeys.map((keys) => keys[0].andln(1).toString()),
+      unpackedAuditorPublicKeys.map((keys) => MystikoProtocolV2.isNegX(keys[0])),
       unpackedAuditorPublicKeys.map((keys) => keys[1].toString()),
       encryptedCommitmentSecretShares,
       tx.inCommitments.map((bn) => bn.toString()),
@@ -548,5 +548,9 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
   private static calcLeaveHash(leaves: BN[]): BN {
     const leafBuffer = Buffer.concat(leaves.map((leaf) => Buffer.from(toFixedLenHexNoPrefix(leaf), 'hex')));
     return toBN(toHexNoPrefix(ethers.utils.keccak256(leafBuffer)), 16).mod(FIELD_SIZE);
+  }
+
+  private static isNegX(x: BN): string {
+    return x.gt(FIELD_SIZE.shrn(1)) ? '1' : '0';
   }
 }
