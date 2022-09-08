@@ -6,7 +6,7 @@ export class ZokratesNodeProverFactory implements ZKProverFactory<ZokratesNodePr
   // eslint-disable-next-line class-methods-use-this
   public create(options?: ZokratesNodeProverOptions): Promise<ZokratesNodeProver> {
     // eslint-disable-next-line global-require
-    const { initialize } = require('zokrates-js/node');
+    const { initialize } = require('zokrates-js');
     return initialize().then(
       (zokratesProvider: ZoKratesProvider) =>
         new ZokratesNodeProver(

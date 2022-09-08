@@ -4,7 +4,7 @@ let prover: ZokratesWasmProver;
 
 beforeAll(async () => {
   // eslint-disable-next-line global-require
-  const { initialize } = require('zokrates-js/node');
+  const { initialize } = require('zokrates-js');
   const zokratesProvider = await initialize();
   prover = new ZokratesWasmProver(
     zokratesProvider.withOptions({

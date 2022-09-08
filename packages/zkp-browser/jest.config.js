@@ -11,8 +11,5 @@ module.exports = {
         esModuleInterop: true,
       },
     },
-  },
-  moduleNameMapper: {
-    '^zokrates-js': 'zokrates-js/node',
-  },
+  }
 };
