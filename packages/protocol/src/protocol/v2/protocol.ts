@@ -57,8 +57,8 @@ export interface TransactionV2 {
   programFile: string | string[];
   abiFile: string | string[];
   provingKeyFile: string | string[];
-  randomAuditingSecretKey: BN;
-  auditorPublicKeys: Buffer[];
+  randomAuditingSecretKey?: BN;
+  auditorPublicKeys: BN[];
 }
 
 export interface RollupV2 {
@@ -393,7 +393,8 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       serialNumbers.push(this.serialNumber(tx.inVerifySks[i], inRandomPs[i]));
       sigHashes.push(this.sigPkHash(tx.sigPk, tx.inVerifySks[i]));
     }
-    const randomAuditingPublicKey = ECIES.publicKey(tx.randomAuditingSecretKey);
+    const randomAuditingSecretKey = tx.randomAuditingSecretKey || ECIES.generateSecretKey();
+    const randomAuditingPublicKey = ECIES.publicKey(randomAuditingSecretKey);
     const unpackedRandomAuditingPublicKey = ECIES.unpackPublicKey(randomAuditingPublicKey);
     const unpackedAuditorPublicKeys = tx.auditorPublicKeys.map((pk) => {
       const unpacked = ECIES.unpackPublicKey(pk);
@@ -404,7 +405,7 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
     );
     const encryptedCommitmentSecretShares = commitmentSecretShares.map(({ shares }) =>
       shares.map((share, index) =>
-        ECIES.encrypt(share.y, tx.auditorPublicKeys[index], tx.randomAuditingSecretKey).toString(),
+        ECIES.encrypt(share.y, tx.auditorPublicKeys[index], randomAuditingSecretKey).toString(),
       ),
     );
     const inputs: any[] = [
@@ -437,7 +438,7 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       tx.outVerifyPks.map((bn) => this.buffToBigInt(bn).toString()),
       unpackedRandomAuditingPublicKey.x.toString(),
       unpackedAuditorPublicKeys.map((keys) => keys[0].toString()),
-      tx.randomAuditingSecretKey.toString(),
+      randomAuditingSecretKey.toString(),
       commitmentSecretShares.map((share) => share.coefficients.map((co) => co.toString())),
       commitmentSecretShares.map((share) => share.shares.map((s) => s.y.toString())),
     ];
