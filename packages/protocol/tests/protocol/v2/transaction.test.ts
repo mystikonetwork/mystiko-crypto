@@ -92,7 +92,7 @@ async function generateTransaction(
     .sub(rollupFeeAmounts.reduce((a, b) => a.add(b), new BN(0)))
     .sub(relayerFeeAmount);
   const randomAuditingSecretKey = ECIES.generateSecretKey();
-  const auditorPublicKeys: Buffer[] = [];
+  const auditorPublicKeys: BN[] = [];
   for (let i = 0; i < protocol.numOfAuditors; i += 1) {
     auditorPublicKeys.push(ECIES.publicKey(ECIES.generateSecretKey()));
   }
