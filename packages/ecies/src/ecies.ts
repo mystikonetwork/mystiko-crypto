@@ -1,4 +1,4 @@
-import { FIELD_SIZE, toBN, toHexNoPrefix } from '@mystikonetwork/utils';
+import { FIELD_SIZE, toBN, toBuff, toFixedLenHexNoPrefix, toHexNoPrefix } from '@mystikonetwork/utils';
 import BN from 'bn.js';
 import { babyjub, poseidon } from 'circomlibjs';
 import randomBytes from 'randombytes';
@@ -16,7 +16,7 @@ export class ECIES {
   }
 
   public static unpackPublicKey(publicKey: BN): { x: BN; y: BN } {
-    const unpacked = babyjub.unpackPoint(publicKey.toBuffer('le', KEY_LEN));
+    const unpacked = babyjub.unpackPoint(toBuff(toFixedLenHexNoPrefix(publicKey, KEY_LEN)).reverse());
     return { x: toBN(unpacked[0].toString()), y: toBN(unpacked[1].toString()) };
   }
 

@@ -551,7 +551,7 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
     return toBN(toHexNoPrefix(ethers.utils.keccak256(leafBuffer)), 16).mod(FIELD_SIZE);
   }
 
-  private static isNegX(x: BN): string {
-    return x.gt(FIELD_SIZE.shrn(1)) ? '1' : '0';
+  private static isNegX(x: BN): boolean {
+    return x.gt(FIELD_SIZE.shrn(1));
   }
 }
