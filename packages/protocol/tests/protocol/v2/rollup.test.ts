@@ -27,6 +27,22 @@ test('test zkProveRollup1', async () => {
   expect(tree.elements().length).toBe(4);
 });
 
+test('test zkProveRollup2', async () => {
+  const tree = new MerkleTree([toBN('100'), toBN('200')], {
+    maxLevels: protocol.merkleTreeLevels,
+  });
+  const proof = await protocol.zkProveRollup({
+    tree,
+    newLeaves: [toBN('1'), toBN('2')],
+    programFile: 'circuits/dist/zokrates/dev/Rollup2.program.gz',
+    abiFile: 'circuits/dist/zokrates/dev/Rollup2.abi.json',
+    provingKeyFile: 'circuits/dist/zokrates/dev/Rollup2.pkey.gz',
+  });
+  const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup2.vkey.gz');
+  expect(verified).toBe(true);
+  expect(tree.elements().length).toBe(4);
+});
+
 test('test zkProveRollup4', async () => {
   const tree = new MerkleTree([toBN('100'), toBN('200'), toBN('300'), toBN('400')], {
     maxLevels: protocol.merkleTreeLevels,
@@ -51,6 +67,25 @@ test('test zkProveRollup4', async () => {
       provingKeyFile: 'circuits/dist/zokrates/dev/Rollup4.pkey.gz',
     });
   }).toThrow();
+});
+
+test('test zkProveRollup8', async () => {
+  const tree = new MerkleTree(
+    [toBN('100'), toBN('200'), toBN('300'), toBN('400'), toBN('500'), toBN('600'), toBN('700'), toBN('800')],
+    {
+      maxLevels: protocol.merkleTreeLevels,
+    },
+  );
+  const proof = await protocol.zkProveRollup({
+    tree,
+    newLeaves: [toBN('1'), toBN('2'), toBN('3'), toBN('4'), toBN('5'), toBN('6'), toBN('7'), toBN('8')],
+    programFile: 'circuits/dist/zokrates/dev/Rollup8.program.gz',
+    abiFile: 'circuits/dist/zokrates/dev/Rollup8.abi.json',
+    provingKeyFile: 'circuits/dist/zokrates/dev/Rollup8.pkey.gz',
+  });
+  const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup8.vkey.gz');
+  expect(verified).toBe(true);
+  expect(tree.elements().length).toBe(16);
 });
 
 test('test zkProveRollup16', async () => {
