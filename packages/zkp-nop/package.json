@@ -1,14 +1,14 @@
 {
-  "name": "@mystikonetwork/zkp-browser",
+  "name": "@mystikonetwork/zkp-nop",
   "version": "0.2.4",
-  "description": "Zero-knowledge proof browser compatible of Mystiko.Network",
+  "description": "Zero-knowledge proof no operation package of Mystiko.Network",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
   "types": "build/cjs/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/mystikonetwork/mystiko-crypto",
-    "directory": "packages/zkp-browser"
+    "directory": "packages/zkp-nop"
   },
   "author": {
     "name": "Mystiko Network"
@@ -50,9 +50,6 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@mystikonetwork/utils": "^0.1.1",
-    "@mystikonetwork/zkp": "^0.2.4",
-    "@mystikonetwork/zkp-wasm": "^0.2.4",
-    "zokrates-js": "^1.1.3"
+    "@mystikonetwork/zkp": "^0.2.4"
   }
 }
