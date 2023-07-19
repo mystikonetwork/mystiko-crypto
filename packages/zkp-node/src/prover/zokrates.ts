@@ -6,7 +6,7 @@ import commandExists from 'command-exists';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { ZoKratesProvider } from '@mystikonetwork/zokrates-js';
+import { ZoKratesProvider } from 'zokrates-js';
 
 async function copyFile(tempDir: string, orig: string[], dest: string): Promise<string> {
   check(orig.length > 0, 'file path cannot be empty');

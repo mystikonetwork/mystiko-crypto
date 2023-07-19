@@ -34,6 +34,7 @@
     "prettier": "yarn prettier:fix"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
     "@tsconfig/recommended": "^1.0.1",
     "@types/jest": "^27.4.0",
@@ -55,6 +56,6 @@
   "dependencies": {
     "@mystikonetwork/utils": "^0.1.1",
     "@mystikonetwork/zkp": "^0.3.0",
-    "@mystikonetwork/zokrates-js": "^1.1.8"
+    "zokrates-js": "^1.1.8"
   }
 }

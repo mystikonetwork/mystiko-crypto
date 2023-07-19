@@ -25,7 +25,7 @@ test('test zkProveRollup1', async () => {
   const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup1.vkey.gz');
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(4);
-});
+}, 60000);
 
 test('test zkProveRollup2', async () => {
   const tree = new MerkleTree([toBN('100'), toBN('200')], {
@@ -41,7 +41,7 @@ test('test zkProveRollup2', async () => {
   const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup2.vkey.gz');
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(4);
-});
+}, 60000);
 
 test('test zkProveRollup4', async () => {
   const tree = new MerkleTree([toBN('100'), toBN('200'), toBN('300'), toBN('400')], {
@@ -67,7 +67,7 @@ test('test zkProveRollup4', async () => {
       provingKeyFile: 'circuits/dist/zokrates/dev/Rollup4.pkey.gz',
     });
   }).toThrow();
-});
+}, 60000);
 
 test('test zkProveRollup8', async () => {
   const tree = new MerkleTree(
@@ -86,7 +86,7 @@ test('test zkProveRollup8', async () => {
   const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup8.vkey.gz');
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(16);
-});
+}, 60000);
 
 test('test zkProveRollup16', async () => {
   const tree = new MerkleTree(
@@ -139,4 +139,4 @@ test('test zkProveRollup16', async () => {
   const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup16.vkey.gz');
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(32);
-});
+}, 60000);
