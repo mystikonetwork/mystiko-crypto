@@ -1,6 +1,6 @@
 {
   "name": "@mystikonetwork/ecies",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "ZKP Friendly ECIES Implementation of Mystiko.Network",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
@@ -43,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "eslint": "~8.22.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",

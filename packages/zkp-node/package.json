@@ -1,6 +1,6 @@
 {
   "name": "@mystikonetwork/zkp-node",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Zero-knowledge proof NodeJS code of Mystiko.Network",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
@@ -41,6 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "eslint": "^8.6.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
@@ -52,9 +53,9 @@
   },
   "dependencies": {
     "@mystikonetwork/utils": "^0.1.1",
-    "@mystikonetwork/zkp": "^0.2.4",
-    "@mystikonetwork/zkp-wasm": "^0.2.4",
-    "command-exists": "^1.2.9",
-    "zokrates-js": "^1.1.3"
+    "@mystikonetwork/zkp": "^0.3.0",
+    "@mystikonetwork/zkp-wasm": "^0.3.0",
+    "@mystikonetwork/zokrates-js": "^1.1.8",
+    "command-exists": "^1.2.9"
   }
 }
