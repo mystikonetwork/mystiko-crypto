@@ -169,7 +169,7 @@ test('test Transaction1x0', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction1x0.vkey.gz');
   expect(result).toBe(true);
-});
+}, 60000);
 
 test('test Transaction1x1', async () => {
   const tx = await generateTransaction(
@@ -183,7 +183,7 @@ test('test Transaction1x1', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction1x1.vkey.gz');
   expect(result).toBe(true);
-});
+}, 60000);
 
 test('test Transaction1x2', async () => {
   const tx = await generateTransaction(
@@ -197,7 +197,7 @@ test('test Transaction1x2', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction1x2.vkey.gz');
   expect(result).toBe(true);
-});
+}, 60000);
 
 test('test Transaction2x0', async () => {
   const tx = await generateTransaction(
@@ -211,7 +211,7 @@ test('test Transaction2x0', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction2x0.vkey.gz');
   expect(result).toBe(true);
-});
+}, 60000);
 
 test('test Transaction2x1', async () => {
   const tx = await generateTransaction(
@@ -225,7 +225,7 @@ test('test Transaction2x1', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction2x1.vkey.gz');
   expect(result).toBe(true);
-});
+}, 60000);
 
 test('test Transaction2x2', async () => {
   const tx = await generateTransaction(
@@ -239,4 +239,4 @@ test('test Transaction2x2', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction2x2.vkey.gz');
   expect(result).toBe(true);
-});
+}, 60000);

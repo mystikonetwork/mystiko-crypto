@@ -1,6 +1,6 @@
 import { readCompressedFile, readJsonFile } from '@mystikonetwork/utils';
 import { ProveOptions, VerifyOptions, ZKProof, ZKProver } from '@mystikonetwork/zkp';
-import { CompilationArtifacts, VerificationKey, ZoKratesProvider } from '@mystikonetwork/zokrates-js';
+import { CompilationArtifacts, VerificationKey, ZoKratesProvider } from 'zokrates-js';
 
 export class ZokratesWasmProver implements ZKProver {
   private readonly zokratesProvider: ZoKratesProvider;

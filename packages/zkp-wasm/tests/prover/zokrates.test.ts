@@ -1,4 +1,4 @@
-import { initialize } from '@mystikonetwork/zokrates-js';
+import { initialize } from 'zokrates-js';
 import { ZokratesWasmProver } from '../../src';
 
 let prover: ZokratesWasmProver;

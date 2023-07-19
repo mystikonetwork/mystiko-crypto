@@ -34,12 +34,15 @@
     "prettier": "yarn prettier:fix"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
     "@tsconfig/recommended": "^1.0.1",
     "@types/command-exists": "^1.2.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
+    "babel-jest": "^29.6.1",
     "eslint": "^8.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
@@ -55,7 +58,7 @@
     "@mystikonetwork/utils": "^0.1.1",
     "@mystikonetwork/zkp": "^0.3.0",
     "@mystikonetwork/zkp-wasm": "^0.3.0",
-    "@mystikonetwork/zokrates-js": "^1.1.8",
-    "command-exists": "^1.2.9"
+    "command-exists": "^1.2.9",
+    "zokrates-js": "^1.1.8"
   }
 }
