@@ -1,5 +1,5 @@
 import { ZKProverFactory } from '@mystikonetwork/zkp';
-import { initialize, ZoKratesProvider } from 'zokrates-js';
+import { initialize, ZoKratesProvider } from '@mystikonetwork/zokrates-js';
 import { ZokratesNodeProver, ZokratesNodeProverOptions } from './zokrates';
 
 export class ZokratesNodeProverFactory implements ZKProverFactory<ZokratesNodeProverOptions> {

@@ -34,8 +34,6 @@
     "prettier": "yarn prettier:fix"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/preset-env": "^7.22.9",
     "@mystikonetwork/zkp-node": "^0.3.0",
     "@tsconfig/recommended": "^1.0.1",
     "@types/bn.js": "^5.1.1",
@@ -48,7 +46,6 @@
     "@types/randombytes": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
-    "babel-jest": "^29.6.1",
     "dts-gen": "^0.6.0",
     "eslint": "^8.6.0",
     "eslint-config-airbnb-base": "^15.0.0",

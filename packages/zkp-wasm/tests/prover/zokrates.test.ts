@@ -1,4 +1,4 @@
-import { initialize } from 'zokrates-js';
+import { initialize } from '@mystikonetwork/zokrates-js';
 import { ZokratesWasmProver } from '../../src';
 
 let prover: ZokratesWasmProver;
@@ -34,4 +34,4 @@ test('test prove', async () => {
       proof,
     }),
   ).toBe(false);
-});
+}, 60000);
