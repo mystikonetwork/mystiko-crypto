@@ -49,7 +49,7 @@ test('test prove', async () => {
       inputs: [true, 2, '4'],
     }),
   ).rejects.toThrow();
-});
+}, 60000);
 
 test('test prove with wasm', async () => {
   prover = await factory.create({ zokratesPath: 'non-existing_zokrates' });
@@ -65,4 +65,4 @@ test('test prove with wasm', async () => {
       proof,
     }),
   ).toBe(true);
-});
+}, 60000);

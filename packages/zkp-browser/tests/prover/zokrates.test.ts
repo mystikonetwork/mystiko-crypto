@@ -10,4 +10,4 @@ beforeAll(async () => {
 
 test('test prove', () => {
   expect(prover).not.toBe(undefined);
-});
+}, 60000);

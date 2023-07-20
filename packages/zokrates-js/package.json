@@ -1,0 +1,48 @@
+{
+  "name": "@mystikonetwork/zokrates-js",
+  "repository": "https://github.com/mystikonetwork/ZoKrates",
+  "version": "0.3.0",
+  "module": "src/index.js",
+  "main": "build/index-node.js",
+  "description": "JavaScript bindings for ZoKrates",
+  "keywords": [
+    "zokrates",
+    "snarks",
+    "zksnarks"
+  ],
+  "license": "MIT",
+  "files": [
+    "build/index.js",
+    "build/index-node.js",
+    "build/wasm.js",
+    "build/metadata.js",
+    "build/browser.js",
+    "src/index.js",
+    "src/wasm.js",
+    "src/metadata.js",
+    "src/browser.js"
+  ],
+  "types": "src/index.d.ts",
+  "exports": {
+    "node": "./build/index-node.js",
+    "default": "./src/index.js"
+  },
+  "scripts": {
+    "prettier:check": "prettier --check \"./**/*.{js,ts}\" --config .prettierrc",
+    "prettier:fix": "prettier --write \"./**/*.{js,ts}\" --config .prettierrc",
+    "prebuild": "rm -rf build && mkdir build",
+    "build": "babel src --out-dir build"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.20.9",
+    "@babel/core": "^7.20.9",
+    "@babel/preset-env": "^7.20.2",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "pako": "^2.1.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
