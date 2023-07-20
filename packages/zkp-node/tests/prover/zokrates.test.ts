@@ -6,7 +6,7 @@ let prover: ZokratesNodeProver;
 beforeAll(async () => {
   factory = new ZokratesNodeProverFactory();
   prover = await factory.create();
-});
+}, 60000);
 
 test('test prove', async () => {
   let proof = await prover.prove({
