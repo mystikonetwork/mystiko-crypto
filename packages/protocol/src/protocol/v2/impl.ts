@@ -250,7 +250,7 @@ export async function commitment(options: CommitmentInput): Promise<CommitmentOu
 }
 
 async function decryptNote(
-  encryptedNote: Buffer,
+  commitmentLike: { commitmentHash: BN; encryptedNote: Buffer },
   keys: { publicKey: Buffer; secretKey: Buffer }[],
   keyIndex: number,
 ): Promise<DecryptOutput | undefined> {
@@ -260,9 +260,9 @@ async function decryptNote(
     const { skVerify, skEnc } = separatedSecretKeys(secretKey);
     const commitmentOutput = await commitment({
       publicKeys: { pkVerify, pkEnc },
-      encryptedNote: { skEnc, encryptedNote },
+      encryptedNote: { skEnc, encryptedNote: commitmentLike.encryptedNote },
     }).catch(() => undefined);
-    if (commitmentOutput !== undefined) {
+    if (commitmentOutput !== undefined && commitmentOutput.commitmentHash.eq(commitmentLike.commitmentHash)) {
       const sn = serialNumber(skVerify, commitmentOutput.randomP);
       return {
         commitment: commitmentOutput,
@@ -270,18 +270,18 @@ async function decryptNote(
         serialNumber: sn,
       };
     }
-    return decryptNote(encryptedNote, keys, keyIndex + 1);
+    return decryptNote(commitmentLike, keys, keyIndex + 1);
   }
   return undefined;
 }
 
 export async function decryptNotes(
-  encryptedNotes: Buffer[],
+  commitments: { commitmentHash: BN; encryptedNote: Buffer }[],
   keys: { publicKey: Buffer; secretKey: Buffer }[],
 ): Promise<DecryptOutput[]> {
   const promises: Promise<DecryptOutput | undefined>[] = [];
-  encryptedNotes.forEach((encryptedNote) => {
-    const promise = decryptNote(encryptedNote, keys, 0);
+  commitments.forEach((commitmentLike) => {
+    const promise = decryptNote(commitmentLike, keys, 0);
     promises.push(promise);
   });
   const results = await Promise.all(promises);

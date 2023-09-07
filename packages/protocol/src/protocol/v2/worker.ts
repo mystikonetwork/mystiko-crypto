@@ -1,9 +1,10 @@
+import BN from 'bn.js';
 import { DecryptOutput } from '../../interface';
 import { decryptNotes as decryptNotesImpl } from './impl';
 
 export function decryptNotes(
-  encryptedNotes: Buffer[],
+  commitments: { commitmentHash: BN; encryptedNote: Buffer }[],
   keys: { publicKey: Buffer; secretKey: Buffer }[],
 ): Promise<DecryptOutput[]> {
-  return decryptNotesImpl(encryptedNotes, keys);
+  return decryptNotesImpl(commitments, keys);
 }

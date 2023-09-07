@@ -214,15 +214,15 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
   }
 
   public async decryptNotes(
-    encryptedNotes: Buffer[],
+    commitments: { commitmentHash: BN; encryptedNote: Buffer }[],
     keys: { publicKey: Buffer; secretKey: Buffer }[],
     concurrency?: number,
   ): Promise<DecryptOutput[]> {
     const numGroups = concurrency || detectConcurrency() || 1;
-    const groupSize = Math.ceil(encryptedNotes.length / numGroups);
+    const groupSize = Math.ceil(commitments.length / numGroups);
     const groups = [];
-    for (let i = 0; i < encryptedNotes.length; i += groupSize) {
-      groups.push(encryptedNotes.slice(i, i + groupSize));
+    for (let i = 0; i < commitments.length; i += groupSize) {
+      groups.push(commitments.slice(i, i + groupSize));
     }
     const promises: Promise<DecryptOutput[]>[] = groups.map((group) => {
       const worker = createWorker();
