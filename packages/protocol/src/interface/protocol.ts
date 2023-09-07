@@ -19,6 +19,8 @@ export type CommitmentOutput = {
   k: BN;
 };
 
+export type DecryptOutput = { commitment: CommitmentOutput; shieldedAddress: string; serialNumber: BN };
+
 export interface MystikoProtocol<
   TX = any,
   R = any,
@@ -58,6 +60,10 @@ export interface MystikoProtocol<
   poseidonHash(inputs: BN[]): BN;
   checkSum(data: string, salt?: string): string;
   commitment(options: CI): Promise<CO>;
+  decryptNotes(
+    encryptedNotes: Buffer[],
+    keys: { publicKey: Buffer; secretKey: Buffer }[],
+  ): Promise<DecryptOutput[]>;
   serialNumber(skVerify: Buffer, randomP: BN): BN;
   sigPkHash(sigPk: Buffer, secretKey: Buffer): BN;
   zkProveTransaction(tx: TX): Promise<P>;

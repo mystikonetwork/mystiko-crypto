@@ -907,13 +907,13 @@
   resolved "https://npm.pkg.github.com/download/@mystikonetwork/fastfile/0.0.21/b3362f8527fa15a2d745c0b516c92d0a5ca0ceef4c2e103aac2d79305f0c4207#069a0d0d6a28a3f002fe97519456bbbd14880f9c"
   integrity sha512-o9vr4WoWEGord8+6ADBSulLO9arM2z0R5bOKj+GGPOFY/Zm8bg7alqRfuTvcxzll9TTk/rv7gDM4GnbBHhvyMA==
 
-"@mystikonetwork/utils@^0.1.1":
-  version "0.1.1"
-  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.1.1/effb96784b6ae9b3179c32410b64591cbc51695aa3884c52593e5877fd900b8f#e13c45b613188865cc94c96bd2c9d20c742d15b4"
-  integrity sha512-qbv3X6Es0d4JzDxk9uun/+qEecLkVQaOJO533XzL283rZzxWfySWgGgcbcPQZr/BWrAsdyUy8Grajnoz01JQhA==
+"@mystikonetwork/utils@^0.2.11":
+  version "0.2.11"
+  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.2.11/81a9ebbe9c3aa27ddf6529c215e88f63bd218ec2#81a9ebbe9c3aa27ddf6529c215e88f63bd218ec2"
+  integrity sha512-dxUVm0Bo+wjH58NK21mK9oY2Rpay4YwrZCTXwak2TS976Hy+yekGzUGNF7bI1AhBVgEDloSXljJ8hmeFdZS0nw==
   dependencies:
     "@mystikonetwork/fastfile" "^0.0.21"
-    axios "^0.26.1"
+    axios "^0.27.2"
     bn.js "^5.2.0"
     ethers "^5.5.3"
     loglevel "^1.8.0"
@@ -940,6 +940,18 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@remote-ui/rpc@^1.2.5":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@remote-ui/rpc/-/rpc-1.4.3.tgz#6dde33831c3d98e43e170f3e3c82a43f35475d09"
+  integrity sha512-+XyELrHLIJVQEuidHoqZ32+drbphY/x697vykHCinTPhhuUiZpag1DnKSxoE4UlnwBzz336UtFHZIiDGtOL2Kg==
+
+"@shopify/web-worker@^6.0.5":
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/@shopify/web-worker/-/web-worker-6.0.5.tgz#7dbfe6b4a74f5ae2451233ed932f3357c4c1d67c"
+  integrity sha512-vM5diGhV3lVx6SQyl6jhXQEap+CzCqbSTG/rmCmX4HLifmnRpSGRBC3z0HpsUA6FYlLkk8VYqHkm1yGRHEe9BA==
+  dependencies:
+    "@remote-ui/rpc" "^1.2.5"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -1440,12 +1452,13 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axios@^0.26.1:
-  version "0.26.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
-  integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
+axios@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
+  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
   dependencies:
-    follow-redirects "^1.14.8"
+    follow-redirects "^1.14.9"
+    form-data "^4.0.0"
 
 b4a@^1.0.1:
   version "1.5.0"
@@ -3047,10 +3060,10 @@ flatted@^3.1.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.5.tgz#76c8584f4fc843db64702a6bd04ab7a8bd666da3"
   integrity sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==
 
-follow-redirects@^1.14.8:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.0.tgz#06441868281c86d0dda4ad8bdaead2d02dca89d4"
-  integrity sha512-aExlJShTV4qOUOL7yF1U5tvLCB0xQuudbf6toyYA0E/acBNw71mvjFTnLaRp50aQaYocMR0a/RMMBIHeZnGyjQ==
+follow-redirects@^1.14.9:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 foreach@^2.0.5:
   version "2.0.5"
@@ -3066,6 +3079,15 @@ form-data@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.1.tgz#ebd53791b78356a99af9a300d4282c4d5eb9755f"
   integrity sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"

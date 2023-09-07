@@ -126,6 +126,36 @@ async function generateTransaction(
   };
 }
 
+async function generateCommitments(
+  mystikoProtocolV2: MystikoProtocolV2,
+  numOfCommitments: number,
+): Promise<{ publicKey: Buffer; secretKey: Buffer; commitment: CommitmentOutput }[]> {
+  const commitmentPromises: Promise<{
+    publicKey: Buffer;
+    secretKey: Buffer;
+    commitment: CommitmentOutput;
+  }>[] = [];
+  for (let i = 0; i < numOfCommitments; i += 1) {
+    const skVerify = mystikoProtocolV2.randomBytes();
+    const skEnc = mystikoProtocolV2.randomBytes();
+    const pkVerify = mystikoProtocolV2.publicKeyForVerification(skVerify);
+    const pkEnc = mystikoProtocolV2.publicKeyForEncryption(skEnc);
+    const promise = mystikoProtocolV2
+      .commitment({
+        publicKeys: { pkVerify, pkEnc },
+        amount: toBN(10),
+      })
+      .then((commitment) => ({
+        publicKey: mystikoProtocolV2.fullPublicKey(pkVerify, pkEnc),
+        secretKey: mystikoProtocolV2.fullSecretKey(skVerify, skEnc),
+        commitment,
+      }));
+    commitmentPromises.push(promise);
+  }
+  const commitments = await Promise.all(commitmentPromises);
+  return commitments;
+}
+
 beforeAll(async () => {
   factory = new ProtocolFactoryV2<ZokratesNodeProverOptions>(new ZokratesNodeProverFactory());
   protocol = await factory.create();
@@ -155,6 +185,31 @@ test('test commitment', async () => {
     .then((c3) => (c3.commitmentHash.toString() !== commitmentHash.toString() ? undefined : c3))
     .catch(() => undefined);
   expect(c1).toBe(undefined);
+});
+
+test('test decryptNote', async () => {
+  const commitmentsWithKeys = await generateCommitments(protocol, 100);
+  const keys = commitmentsWithKeys.map((c) => ({ publicKey: c.publicKey, secretKey: c.secretKey }));
+  const encryptedNotes = commitmentsWithKeys.map((c) => c.commitment.encryptedNote);
+  const shieldedAddresses = commitmentsWithKeys.map((c) => {
+    const { pkVerify, pkEnc } = protocol.separatedPublicKeys(c.publicKey);
+    return protocol.shieldedAddress(pkVerify, pkEnc);
+  });
+  const serialNumbers = commitmentsWithKeys.map((c) => {
+    const { skVerify } = protocol.separatedSecretKeys(c.secretKey);
+    return protocol.serialNumber(skVerify, c.commitment.randomP);
+  });
+  let decrypted = await protocol.decryptNotes(encryptedNotes.slice(0, 35), keys.slice(20, 100));
+  expect(decrypted.length).toBe(15);
+  for (let i = 20; i < 20 + decrypted.length; i += 1) {
+    expect(decrypted[i - 20].commitment.commitmentHash.toString()).toBe(
+      commitmentsWithKeys[i].commitment.commitmentHash.toString(),
+    );
+    expect(decrypted[i - 20].shieldedAddress).toBe(shieldedAddresses[i]);
+    expect(decrypted[i - 20].serialNumber.toString()).toBe(serialNumbers[i].toString());
+  }
+  decrypted = await protocol.decryptNotes(encryptedNotes, keys, 4);
+  expect(decrypted.length).toBe(100);
 });
 
 test('test Transaction1x0', async () => {
