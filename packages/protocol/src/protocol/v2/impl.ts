@@ -263,7 +263,7 @@ async function decryptNote(
       encryptedNote: { skEnc, encryptedNote: commitmentLike.encryptedNote },
     }).catch(() => undefined);
     if (commitmentOutput !== undefined && commitmentOutput.commitmentHash.eq(commitmentLike.commitmentHash)) {
-      const sn = serialNumber(skVerify, commitmentOutput.randomP);
+      const sn = serialNumber(secretKeyForVerification(skVerify), commitmentOutput.randomP);
       return {
         commitment: commitmentOutput,
         shieldedAddress: shieldedAddress(pkVerify, pkEnc),

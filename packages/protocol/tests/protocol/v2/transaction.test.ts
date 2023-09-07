@@ -197,7 +197,7 @@ test('test decryptNote', async () => {
   });
   const serialNumbers = commitmentsWithKeys.map((c) => {
     const { skVerify } = protocol.separatedSecretKeys(c.secretKey);
-    return protocol.serialNumber(skVerify, c.commitment.randomP);
+    return protocol.serialNumber(protocol.secretKeyForVerification(skVerify), c.commitment.randomP);
   });
   let decrypted = await protocol.decryptNotes(commitments.slice(0, 35), keys.slice(20, 100));
   expect(decrypted.length).toBe(15);
@@ -207,6 +207,16 @@ test('test decryptNote', async () => {
     );
     expect(decrypted[i - 20].shieldedAddress).toBe(shieldedAddresses[i]);
     expect(decrypted[i - 20].serialNumber.toString()).toBe(serialNumbers[i].toString());
+    expect(decrypted[i - 20].commitment.randomP.toString()).toBe(
+      commitmentsWithKeys[i].commitment.randomP.toString(),
+    );
+    expect(decrypted[i - 20].commitment.randomR.toString()).toBe(
+      commitmentsWithKeys[i].commitment.randomR.toString(),
+    );
+    expect(decrypted[i - 20].commitment.randomS.toString()).toBe(
+      commitmentsWithKeys[i].commitment.randomS.toString(),
+    );
+    expect(decrypted[i - 20].commitment.k.toString()).toBe(commitmentsWithKeys[i].commitment.k.toString());
   }
   decrypted = await protocol.decryptNotes(commitments, keys, 4);
   expect(decrypted.length).toBe(100);
