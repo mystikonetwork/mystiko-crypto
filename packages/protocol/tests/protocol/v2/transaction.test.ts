@@ -189,8 +189,14 @@ test('test commitment', async () => {
 
 test('test decryptNote', async () => {
   const commitmentsWithKeys = await generateCommitments(protocol, 100);
-  const keys = commitmentsWithKeys.map((c) => ({ publicKey: c.publicKey, secretKey: c.secretKey }));
-  const commitments = commitmentsWithKeys.map((c) => c.commitment);
+  const keys = commitmentsWithKeys.map((c) => ({
+    publicKey: toHexNoPrefix(c.publicKey),
+    secretKey: toHexNoPrefix(c.secretKey),
+  }));
+  const commitments = commitmentsWithKeys.map((c) => ({
+    commitmentHash: c.commitment.commitmentHash.toString(),
+    encryptedNote: toHexNoPrefix(c.commitment.encryptedNote),
+  }));
   const shieldedAddresses = commitmentsWithKeys.map((c) => {
     const { pkVerify, pkEnc } = protocol.separatedPublicKeys(c.publicKey);
     return protocol.shieldedAddress(pkVerify, pkEnc);
