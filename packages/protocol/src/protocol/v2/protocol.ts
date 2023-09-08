@@ -21,7 +21,7 @@ import { createWorkerFactory, terminate } from '@shopify/web-worker';
 import { CommitmentInput, CommitmentOutput, DecryptOutput, MystikoProtocol } from '../../interface';
 import * as impl from './impl';
 
-const createWorker = createWorkerFactory(() => import('./impl'));
+const createWorker = createWorkerFactory(() => import('./worker'));
 
 export interface TransactionV2 {
   numInputs: number;
@@ -214,8 +214,8 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
   }
 
   public async decryptNotes(
-    commitments: { commitmentHash: BN; encryptedNote: Buffer }[],
-    keys: { publicKey: Buffer; secretKey: Buffer }[],
+    commitments: { commitmentHash: string; encryptedNote: string }[],
+    keys: { publicKey: string; secretKey: string }[],
     concurrency?: number,
   ): Promise<DecryptOutput[]> {
     const numGroups = concurrency || detectConcurrency() || 1;

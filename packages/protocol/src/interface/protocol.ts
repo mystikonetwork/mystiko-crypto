@@ -61,8 +61,8 @@ export interface MystikoProtocol<
   checkSum(data: string, salt?: string): string;
   commitment(options: CI): Promise<CO>;
   decryptNotes(
-    commitments: { commitmentHash: BN; encryptedNote: Buffer }[],
-    keys: { publicKey: Buffer; secretKey: Buffer }[],
+    commitments: { commitmentHash: string; encryptedNote: string }[],
+    keys: { publicKey: string; secretKey: string }[],
   ): Promise<DecryptOutput[]>;
   serialNumber(skVerify: Buffer, randomP: BN): BN;
   sigPkHash(sigPk: Buffer, secretKey: Buffer): BN;
