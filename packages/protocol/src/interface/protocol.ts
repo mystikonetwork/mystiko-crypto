@@ -19,7 +19,23 @@ export type CommitmentOutput = {
   k: BN;
 };
 
+export type CommitmentStringOutput = {
+  encryptedNote: string;
+  shieldedAddress: string;
+  commitmentHash: string;
+  amount: string;
+  randomP: string;
+  randomR: string;
+  randomS: string;
+  k: string;
+};
+
 export type DecryptOutput = { commitment: CommitmentOutput; shieldedAddress: string; serialNumber: BN };
+export type DecryptStringOutput = {
+  commitment: CommitmentStringOutput;
+  shieldedAddress: string;
+  serialNumber: string;
+};
 
 export interface MystikoProtocol<
   TX = any,

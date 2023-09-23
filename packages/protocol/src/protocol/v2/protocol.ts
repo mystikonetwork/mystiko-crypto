@@ -8,6 +8,7 @@ import {
   FIELD_SIZE,
   logger as rootLogger,
   toBN,
+  toBuff,
   toFixedLenHexNoPrefix,
   toHex,
   toHexNoPrefix,
@@ -226,7 +227,25 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
     }
     const promises: Promise<DecryptOutput[]>[] = groups.map((group) => {
       const worker = createWorker();
-      return worker.decryptNotes(group, keys).finally(() => terminate(worker));
+      return worker
+        .decryptNotes(group, keys)
+        .then((outputs) =>
+          outputs.map((output) => ({
+            commitment: {
+              encryptedNote: toBuff(output.commitment.encryptedNote),
+              shieldedAddress: output.commitment.shieldedAddress,
+              commitmentHash: toBN(output.commitment.commitmentHash),
+              amount: toBN(output.commitment.amount),
+              randomP: toBN(output.commitment.randomP),
+              randomR: toBN(output.commitment.randomR),
+              randomS: toBN(output.commitment.randomS),
+              k: toBN(output.commitment.k),
+            },
+            shieldedAddress: output.shieldedAddress,
+            serialNumber: toBN(output.serialNumber),
+          })),
+        )
+        .finally(() => terminate(worker));
     });
     const results = await Promise.all(promises);
     return results.flat();
