@@ -6,7 +6,7 @@ import { eddsa, poseidon } from 'circomlibjs';
 import cryptojs from 'crypto-js';
 import aes from 'crypto-js/aes';
 import hmacSHA512 from 'crypto-js/hmac-sha512';
-import eccrypto from 'eccrypto';
+import eccrypto from '@mystikonetwork/eccrypto';
 import { ethers } from 'ethers';
 import { Scalar } from 'ffjavascript';
 import unsafeRandomBytes from 'randombytes';

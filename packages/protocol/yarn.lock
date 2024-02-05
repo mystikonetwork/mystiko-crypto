@@ -902,6 +902,18 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@mystikonetwork/eccrypto@^1.1.7":
+  version "1.1.7"
+  resolved "https://npm.pkg.github.com/download/@mystikonetwork/eccrypto/1.1.7/86c2e442eb394ffb90dce136d80817a010fa6f84#86c2e442eb394ffb90dce136d80817a010fa6f84"
+  integrity sha512-w2mvkIDvdRr/fHxkA2KBqJhu/aWHCO0CF2c60UorM4hmsAuSVA/AaFuBDTcpOPHOyD66RnUf49JDPO6CLFb/+g==
+  dependencies:
+    acorn "7.1.1"
+    elliptic "6.5.4"
+    es6-promise "4.2.8"
+    nan "2.14.0"
+  optionalDependencies:
+    secp256k1 "3.7.1"
+
 "@mystikonetwork/fastfile@^0.0.21":
   version "0.0.21"
   resolved "https://npm.pkg.github.com/download/@mystikonetwork/fastfile/0.0.21/b3362f8527fa15a2d745c0b516c92d0a5ca0ceef4c2e103aac2d79305f0c4207#069a0d0d6a28a3f002fe97519456bbbd14880f9c"
@@ -2352,18 +2364,6 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
-
-eccrypto@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/eccrypto/-/eccrypto-1.1.6.tgz#846bd1222323036f7a3515613704386399702bd3"
-  integrity sha512-d78ivVEzu7Tn0ZphUUaL43+jVPKTMPFGtmgtz1D0LrFn7cY3K8CdrvibuLz2AAkHBLKZtR8DMbB2ukRYFk987A==
-  dependencies:
-    acorn "7.1.1"
-    elliptic "6.5.4"
-    es6-promise "4.2.8"
-    nan "2.14.0"
-  optionalDependencies:
-    secp256k1 "3.7.1"
 
 ee-first@1.1.1:
   version "1.1.1"

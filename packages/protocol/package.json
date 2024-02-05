@@ -1,6 +1,6 @@
 {
   "name": "@mystikonetwork/protocol",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Core protocol of Mystiko.Network",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
@@ -34,7 +34,7 @@
     "prettier": "yarn prettier:fix"
   },
   "devDependencies": {
-    "@mystikonetwork/zkp-node": "^0.3.3",
+    "@mystikonetwork/zkp-node": "^0.3.4",
     "@tsconfig/recommended": "^1.0.1",
     "@types/bn.js": "^5.1.1",
     "@types/bs58": "^4.0.1",
@@ -59,18 +59,18 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@mystikonetwork/ecies": "^0.3.3",
-    "@mystikonetwork/merkle": "^0.3.3",
-    "@mystikonetwork/secret-share": "^0.3.3",
+    "@mystikonetwork/eccrypto": "^1.1.7",
+    "@mystikonetwork/ecies": "^0.3.4",
+    "@mystikonetwork/merkle": "^0.3.4",
+    "@mystikonetwork/secret-share": "^0.3.4",
     "@mystikonetwork/utils": "^0.2.11",
-    "@mystikonetwork/zkp": "^0.3.3",
+    "@mystikonetwork/zkp": "^0.3.4",
     "@shopify/web-worker": "^6.0.5",
     "blake-hash": "^2.0.0",
     "bn.js": "^5.2.0",
     "bs58": "^4.0.1",
     "circomlibjs": "^0.0.8",
     "crypto-js": "^4.1.1",
-    "eccrypto": "^1.1.6",
     "ethers": "^5.5.3",
     "ffjavascript": "^0.2.48",
     "loglevel": "^1.8.0",
