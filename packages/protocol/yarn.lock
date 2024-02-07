@@ -902,10 +902,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mystikonetwork/eccrypto@^1.1.7":
-  version "1.1.7"
-  resolved "https://npm.pkg.github.com/download/@mystikonetwork/eccrypto/1.1.7/86c2e442eb394ffb90dce136d80817a010fa6f84#86c2e442eb394ffb90dce136d80817a010fa6f84"
-  integrity sha512-w2mvkIDvdRr/fHxkA2KBqJhu/aWHCO0CF2c60UorM4hmsAuSVA/AaFuBDTcpOPHOyD66RnUf49JDPO6CLFb/+g==
+"@mystikonetwork/eccrypto@^1.1.8":
+  version "1.1.8"
+  resolved "https://npm.pkg.github.com/download/@mystikonetwork/eccrypto/1.1.8/01b63dc8510610752eabb695f6ed05497f8d4d78#01b63dc8510610752eabb695f6ed05497f8d4d78"
+  integrity sha512-WjBQNDJIOXDSHu5/a/fTAtYtgVTF17P4cm+SDBEZVzW6/URkgxUH27YBfCpqP9p2CeFCMJOLVjYZKn4Xb97Rsw==
   dependencies:
     acorn "7.1.1"
     elliptic "6.5.4"

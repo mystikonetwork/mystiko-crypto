@@ -1,7 +1,7 @@
 {
   "name": "@mystikonetwork/zokrates-js",
   "repository": "https://github.com/mystikonetwork/ZoKrates",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "module": "src/index.js",
   "main": "build/index-node.js",
   "description": "JavaScript bindings for ZoKrates",
