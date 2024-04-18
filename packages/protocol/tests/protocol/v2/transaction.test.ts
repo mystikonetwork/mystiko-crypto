@@ -240,7 +240,7 @@ test('test Transaction1x0', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(
     proof,
-    (await readFile('circuits/dist/zokrates/dev/Transaction1x0.vkey.gz')).toString(),
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction1x0.vkey.gz')).toString(),
   );
   expect(result).toBe(true);
 }, 60000);
@@ -257,7 +257,7 @@ test('test Transaction1x1', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(
     proof,
-    (await readFile('circuits/dist/zokrates/dev/Transaction1x1.vkey.gz')).toString(),
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction1x1.vkey.gz')).toString(),
   );
   expect(result).toBe(true);
 }, 60000);
@@ -274,7 +274,7 @@ test('test Transaction1x2', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(
     proof,
-    (await readFile('circuits/dist/zokrates/dev/Transaction1x2.vkey.gz')).toString(),
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction1x2.vkey.gz')).toString(),
   );
   expect(result).toBe(true);
 }, 60000);
@@ -291,7 +291,7 @@ test('test Transaction2x0', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(
     proof,
-    (await readFile('circuits/dist/zokrates/dev/Transaction2x0.vkey.gz')).toString(),
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction2x0.vkey.gz')).toString(),
   );
   expect(result).toBe(true);
 }, 60000);
@@ -308,7 +308,7 @@ test('test Transaction2x1', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(
     proof,
-    (await readFile('circuits/dist/zokrates/dev/Transaction2x1.vkey.gz')).toString(),
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction2x1.vkey.gz')).toString(),
   );
   expect(result).toBe(true);
 }, 60000);
@@ -325,7 +325,7 @@ test('test Transaction2x2', async () => {
   const proof = await protocol.zkProveTransaction(tx);
   const result = await protocol.zkVerify(
     proof,
-    (await readFile('circuits/dist/zokrates/dev/Transaction2x2.vkey.gz')).toString(),
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction2x2.vkey.gz')).toString(),
   );
   expect(result).toBe(true);
 }, 60000);

@@ -24,7 +24,7 @@ test('test zkProveRollup1', async () => {
   });
   const verified = await protocol.zkVerify(
     proof,
-    (await readFile(['circuits/dist/zokrates/dev/Rollup1.vkey.gz'])).toString(),
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup1.vkey.gz'])).toString(),
   );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(4);
@@ -43,7 +43,7 @@ test('test zkProveRollup2', async () => {
   });
   const verified = await protocol.zkVerify(
     proof,
-    (await readFile(['circuits/dist/zokrates/dev/Rollup2.vkey.gz'])).toString(),
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup2.vkey.gz'])).toString(),
   );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(4);
@@ -62,7 +62,7 @@ test('test zkProveRollup4', async () => {
   });
   const verified = await protocol.zkVerify(
     proof,
-    (await readFile(['circuits/dist/zokrates/dev/Rollup4.vkey.gz'])).toString(),
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup4.vkey.gz'])).toString(),
   );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(8);
@@ -94,7 +94,7 @@ test('test zkProveRollup8', async () => {
   });
   const verified = await protocol.zkVerify(
     proof,
-    (await readFile(['circuits/dist/zokrates/dev/Rollup8.vkey.gz'])).toString(),
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup8.vkey.gz'])).toString(),
   );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(16);
@@ -150,7 +150,7 @@ test('test zkProveRollup16', async () => {
   });
   const verified = await protocol.zkVerify(
     proof,
-    (await readFile(['circuits/dist/zokrates/dev/Rollup16.vkey.gz'])).toString(),
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup16.vkey.gz'])).toString(),
   );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(32);
