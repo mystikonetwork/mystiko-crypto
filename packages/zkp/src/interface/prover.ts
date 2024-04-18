@@ -1,14 +1,14 @@
 import { ZKProof } from './proof';
 
 export type ProveOptions = {
-  programFile: string[];
-  abiFile: string[];
-  provingKeyFile: string[];
+  program: Buffer;
+  abi: string;
+  provingKey: Buffer;
   inputs: any[];
 };
 
 export type VerifyOptions<P = ZKProof> = {
-  verifyingKeyFile: string[];
+  verifyingKey: string;
   proof: P;
 };
 

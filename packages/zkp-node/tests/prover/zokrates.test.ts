@@ -1,3 +1,4 @@
+import { readFile } from '@mystikonetwork/utils';
 import { ZokratesNodeProver, ZokratesNodeProverFactory } from '../../src';
 
 let factory: ZokratesNodeProverFactory;
@@ -10,42 +11,42 @@ beforeAll(async () => {
 
 test('test prove', async () => {
   let proof = await prover.prove({
-    programFile: ['tests/files/program'],
-    abiFile: ['tests/files/abi.json'],
-    provingKeyFile: ['tests/files/proving.key'],
+    program: await readFile(['tests/files/program']),
+    abi: (await readFile(['tests/files/abi.json'])).toString(),
+    provingKey: await readFile(['tests/files/proving.key']),
     inputs: [true, [[[false]]], '1'],
   });
   expect(
     await prover.verify({
-      verifyingKeyFile: ['tests/files/verification.key'],
+      verifyingKey: (await readFile(['tests/files/verification.key'])).toString(),
       proof,
     }),
   ).toBe(true);
   proof = await prover.prove({
-    programFile: ['tests/files/program'],
-    abiFile: ['tests/files/abi.json'],
-    provingKeyFile: ['tests/files/proving.key'],
+    program: await readFile(['tests/files/program']),
+    abi: (await readFile(['tests/files/abi.json'])).toString(),
+    provingKey: await readFile(['tests/files/proving.key']),
     inputs: [3, '2', '5'],
   });
   expect(
     await prover.verify({
-      verifyingKeyFile: ['tests/files/verification.key'],
+      verifyingKey: (await readFile(['tests/files/verification.key'])).toString(),
       proof,
     }),
   ).toBe(true);
   proof.inputs[2] = '4';
   expect(
     await prover.verify({
-      verifyingKeyFile: ['tests/files/verification.key'],
+      verifyingKey: (await readFile(['tests/files/verification.key'])).toString(),
       proof,
     }),
   ).toBe(false);
   prover = await factory.create({ zokratesPath: 'zokrates' });
   await expect(
     prover.prove({
-      programFile: ['tests/files/program'],
-      abiFile: ['tests/files/abi.json'],
-      provingKeyFile: ['tests/files/proving.key'],
+      program: await readFile(['tests/files/program']),
+      abi: (await readFile(['tests/files/abi.json'])).toString(),
+      provingKey: await readFile(['tests/files/proving.key']),
       inputs: [true, 2, '4'],
     }),
   ).rejects.toThrow();
@@ -54,14 +55,14 @@ test('test prove', async () => {
 test('test prove with wasm', async () => {
   prover = await factory.create({ zokratesPath: 'non-existing_zokrates' });
   const proof = await prover.prove({
-    programFile: ['tests/files/program'],
-    abiFile: ['tests/files/abi.json'],
-    provingKeyFile: ['tests/files/proving.key'],
+    program: await readFile(['tests/files/program']),
+    abi: (await readFile(['tests/files/abi.json'])).toString(),
+    provingKey: await readFile(['tests/files/proving.key']),
     inputs: ['1', '0', '1'],
   });
   expect(
     await prover.verify({
-      verifyingKeyFile: ['tests/files/verification.key'],
+      verifyingKey: (await readFile(['tests/files/verification.key'])).toString(),
       proof,
     }),
   ).toBe(true);

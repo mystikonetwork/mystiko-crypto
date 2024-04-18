@@ -51,7 +51,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@mystikonetwork/utils": "^0.1.1",
+    "@mystikonetwork/utils": ">=0.3.2",
     "@mystikonetwork/zkp": "^0.3.5",
     "@mystikonetwork/zkp-wasm": "^0.3.5",
     "@mystikonetwork/zokrates-js": "^0.3.5"

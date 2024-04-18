@@ -54,7 +54,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@mystikonetwork/utils": "^0.1.3",
+    "@mystikonetwork/utils": ">=0.3.2",
     "bn.js": "^5.2.0",
     "randombytes": "^2.1.0"
   }

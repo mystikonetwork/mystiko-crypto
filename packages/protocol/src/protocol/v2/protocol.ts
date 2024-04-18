@@ -46,9 +46,9 @@ export interface TransactionV2 {
   outRandomPs: BN[];
   outRandomRs: BN[];
   outRandomSs: BN[];
-  programFile: string | string[];
-  abiFile: string | string[];
-  provingKeyFile: string | string[];
+  program: Buffer;
+  abi: string;
+  provingKey: Buffer;
   randomAuditingSecretKey?: BN;
   auditorPublicKeys: BN[];
 }
@@ -56,9 +56,9 @@ export interface TransactionV2 {
 export interface RollupV2 {
   tree: MerkleTree;
   newLeaves: BN[];
-  programFile: string | string[];
-  abiFile: string | string[];
-  provingKeyFile: string | string[];
+  program: Buffer;
+  abi: string;
+  provingKey: Buffer;
 }
 
 export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV2> {
@@ -334,9 +334,9 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       commitmentSecretShares.map((share) => share.shares.map((s) => s.y.toString())),
     ];
     const proof = await this.zkProver.prove({
-      programFile: typeof tx.programFile === 'string' ? [tx.programFile] : tx.programFile,
-      abiFile: typeof tx.abiFile === 'string' ? [tx.abiFile] : tx.abiFile,
-      provingKeyFile: typeof tx.provingKeyFile === 'string' ? [tx.provingKeyFile] : tx.provingKeyFile,
+      program: tx.program,
+      abi: tx.abi,
+      provingKey: tx.provingKey,
       inputs,
     });
     this.logger.debug('zkSnark proof is generated successfully');
@@ -368,19 +368,18 @@ export class MystikoProtocolV2 implements MystikoProtocol<TransactionV2, RollupV
       rollup.newLeaves.map((bn) => bn.toString()),
     ];
     return this.zkProver.prove({
-      programFile: typeof rollup.programFile === 'string' ? [rollup.programFile] : rollup.programFile,
-      abiFile: typeof rollup.abiFile === 'string' ? [rollup.abiFile] : rollup.abiFile,
-      provingKeyFile:
-        typeof rollup.provingKeyFile === 'string' ? [rollup.provingKeyFile] : rollup.provingKeyFile,
+      program: rollup.program,
+      abi: rollup.abi,
+      provingKey: rollup.provingKey,
       inputs,
     });
   }
 
-  public async zkVerify(proof: ZKProof, verifyingKeyFile: string | string[]): Promise<boolean> {
+  public async zkVerify(proof: ZKProof, verifyingKey: string): Promise<boolean> {
     this.logger.debug('start verifying generated proofs...');
     const result = await this.zkProver.verify({
       proof,
-      verifyingKeyFile: typeof verifyingKeyFile === 'string' ? [verifyingKeyFile] : verifyingKeyFile,
+      verifyingKey,
     });
     this.logger.debug(`proof verification is done, result=${result}`);
     return Promise.resolve(result);
