@@ -5,10 +5,10 @@ test('test basic', async () => {
   const prover = await factory.create();
   await expect(
     prover.prove({
-      programFile: ['program'],
-      provingKeyFile: ['provingKey'],
+      program: Buffer.from([]),
+      provingKey: Buffer.from([]),
       inputs: ['verifyingKey'],
-      abiFile: ['abi'],
+      abi: 'abi',
     }),
   ).rejects.toThrow();
   expect(
@@ -17,7 +17,7 @@ test('test basic', async () => {
         proof: [],
         inputs: [],
       },
-      verifyingKeyFile: ['verifyingKey'],
+      verifyingKey: 'verifyingKey',
     }),
   ).toBe(false);
 });
