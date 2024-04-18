@@ -1,5 +1,5 @@
 import { MerkleTree } from '@mystikonetwork/merkle';
-import { toBN } from '@mystikonetwork/utils';
+import { readCompressedFile, readFile, toBN } from '@mystikonetwork/utils';
 import { ZokratesNodeProverFactory, ZokratesNodeProverOptions } from '@mystikonetwork/zkp-node';
 import { MystikoProtocolV2, ProtocolFactoryV2 } from '../../../src';
 
@@ -18,11 +18,14 @@ test('test zkProveRollup1', async () => {
   const proof = await protocol.zkProveRollup({
     tree,
     newLeaves: [toBN('1')],
-    programFile: 'circuits/dist/zokrates/dev/Rollup1.program.gz',
-    abiFile: 'circuits/dist/zokrates/dev/Rollup1.abi.json',
-    provingKeyFile: 'circuits/dist/zokrates/dev/Rollup1.pkey.gz',
+    program: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup1.program.gz']),
+    abi: (await readFile(['circuits/dist/zokrates/dev/Rollup1.abi.json'])).toString(),
+    provingKey: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup1.pkey.gz']),
   });
-  const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup1.vkey.gz');
+  const verified = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup1.vkey.gz'])).toString(),
+  );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(4);
 }, 60000);
@@ -34,11 +37,14 @@ test('test zkProveRollup2', async () => {
   const proof = await protocol.zkProveRollup({
     tree,
     newLeaves: [toBN('1'), toBN('2')],
-    programFile: 'circuits/dist/zokrates/dev/Rollup2.program.gz',
-    abiFile: 'circuits/dist/zokrates/dev/Rollup2.abi.json',
-    provingKeyFile: 'circuits/dist/zokrates/dev/Rollup2.pkey.gz',
+    program: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup2.program.gz']),
+    abi: (await readFile(['circuits/dist/zokrates/dev/Rollup2.abi.json'])).toString(),
+    provingKey: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup2.pkey.gz']),
   });
-  const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup2.vkey.gz');
+  const verified = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup2.vkey.gz'])).toString(),
+  );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(4);
 }, 60000);
@@ -50,23 +56,26 @@ test('test zkProveRollup4', async () => {
   const proof = await protocol.zkProveRollup({
     tree,
     newLeaves: [toBN('1'), toBN('2'), toBN('3'), toBN('4')],
-    programFile: 'circuits/dist/zokrates/dev/Rollup4.program.gz',
-    abiFile: 'circuits/dist/zokrates/dev/Rollup4.abi.json',
-    provingKeyFile: 'circuits/dist/zokrates/dev/Rollup4.pkey.gz',
+    program: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup4.program.gz']),
+    abi: (await readFile(['circuits/dist/zokrates/dev/Rollup4.abi.json'])).toString(),
+    provingKey: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup4.pkey.gz']),
   });
-  const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup4.vkey.gz');
+  const verified = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup4.vkey.gz'])).toString(),
+  );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(8);
   tree.insert(toBN(5));
-  expect(() => {
+  await expect(async () => {
     protocol.zkProveRollup({
       tree,
       newLeaves: [toBN('6'), toBN('7'), toBN('8'), toBN('9')],
-      programFile: 'circuits/dist/zokrates/dev/Rollup4.program.gz',
-      abiFile: 'circuits/dist/zokrates/dev/Rollup4.abi.json',
-      provingKeyFile: 'circuits/dist/zokrates/dev/Rollup4.pkey.gz',
+      program: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup4.program.gz']),
+      abi: (await readFile(['circuits/dist/zokrates/dev/Rollup4.abi.json'])).toString(),
+      provingKey: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup4.pkey.gz']),
     });
-  }).toThrow();
+  }).rejects.toThrow();
 }, 60000);
 
 test('test zkProveRollup8', async () => {
@@ -79,11 +88,14 @@ test('test zkProveRollup8', async () => {
   const proof = await protocol.zkProveRollup({
     tree,
     newLeaves: [toBN('1'), toBN('2'), toBN('3'), toBN('4'), toBN('5'), toBN('6'), toBN('7'), toBN('8')],
-    programFile: 'circuits/dist/zokrates/dev/Rollup8.program.gz',
-    abiFile: 'circuits/dist/zokrates/dev/Rollup8.abi.json',
-    provingKeyFile: 'circuits/dist/zokrates/dev/Rollup8.pkey.gz',
+    program: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup8.program.gz']),
+    abi: (await readFile(['circuits/dist/zokrates/dev/Rollup8.abi.json'])).toString(),
+    provingKey: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup8.pkey.gz']),
   });
-  const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup8.vkey.gz');
+  const verified = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup8.vkey.gz'])).toString(),
+  );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(16);
 }, 60000);
@@ -132,11 +144,14 @@ test('test zkProveRollup16', async () => {
       toBN('15'),
       toBN('16'),
     ],
-    programFile: 'circuits/dist/zokrates/dev/Rollup16.program.gz',
-    abiFile: 'circuits/dist/zokrates/dev/Rollup16.abi.json',
-    provingKeyFile: 'circuits/dist/zokrates/dev/Rollup16.pkey.gz',
+    program: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup16.program.gz']),
+    abi: (await readFile(['circuits/dist/zokrates/dev/Rollup16.abi.json'])).toString(),
+    provingKey: await readCompressedFile(['circuits/dist/zokrates/dev/Rollup16.pkey.gz']),
   });
-  const verified = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Rollup16.vkey.gz');
+  const verified = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile(['circuits/dist/zokrates/dev/Rollup16.vkey.gz'])).toString(),
+  );
   expect(verified).toBe(true);
   expect(tree.elements().length).toBe(32);
 }, 60000);

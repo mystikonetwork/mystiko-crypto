@@ -1,6 +1,6 @@
 import { ECIES } from '@mystikonetwork/ecies';
 import { MerkleTree } from '@mystikonetwork/merkle';
-import { toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
+import { readCompressedFile, readFile, toBN, toDecimals, toHexNoPrefix } from '@mystikonetwork/utils';
 import { ZokratesNodeProverFactory, ZokratesNodeProverOptions } from '@mystikonetwork/zkp-node';
 import BN from 'bn.js';
 import { ethers } from 'ethers';
@@ -118,9 +118,9 @@ async function generateTransaction(
     outRandomRs,
     outRandomSs,
     outAmounts,
-    programFile,
-    abiFile,
-    provingKeyFile,
+    program: await readCompressedFile([programFile]),
+    abi: (await readFile([abiFile])).toString(),
+    provingKey: await readCompressedFile([provingKeyFile]),
     randomAuditingSecretKey,
     auditorPublicKeys,
   };
@@ -238,7 +238,10 @@ test('test Transaction1x0', async () => {
     'circuits/dist/zokrates/dev/Transaction1x0.pkey.gz',
   );
   const proof = await protocol.zkProveTransaction(tx);
-  const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction1x0.vkey.gz');
+  const result = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction1x0.vkey.gz')).toString(),
+  );
   expect(result).toBe(true);
 }, 60000);
 
@@ -252,7 +255,10 @@ test('test Transaction1x1', async () => {
     'circuits/dist/zokrates/dev/Transaction1x1.pkey.gz',
   );
   const proof = await protocol.zkProveTransaction(tx);
-  const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction1x1.vkey.gz');
+  const result = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction1x1.vkey.gz')).toString(),
+  );
   expect(result).toBe(true);
 }, 60000);
 
@@ -266,7 +272,10 @@ test('test Transaction1x2', async () => {
     'circuits/dist/zokrates/dev/Transaction1x2.pkey.gz',
   );
   const proof = await protocol.zkProveTransaction(tx);
-  const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction1x2.vkey.gz');
+  const result = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction1x2.vkey.gz')).toString(),
+  );
   expect(result).toBe(true);
 }, 60000);
 
@@ -280,7 +289,10 @@ test('test Transaction2x0', async () => {
     'circuits/dist/zokrates/dev/Transaction2x0.pkey.gz',
   );
   const proof = await protocol.zkProveTransaction(tx);
-  const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction2x0.vkey.gz');
+  const result = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction2x0.vkey.gz')).toString(),
+  );
   expect(result).toBe(true);
 }, 60000);
 
@@ -294,7 +306,10 @@ test('test Transaction2x1', async () => {
     'circuits/dist/zokrates/dev/Transaction2x1.pkey.gz',
   );
   const proof = await protocol.zkProveTransaction(tx);
-  const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction2x1.vkey.gz');
+  const result = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction2x1.vkey.gz')).toString(),
+  );
   expect(result).toBe(true);
 }, 60000);
 
@@ -308,6 +323,9 @@ test('test Transaction2x2', async () => {
     'circuits/dist/zokrates/dev/Transaction2x2.pkey.gz',
   );
   const proof = await protocol.zkProveTransaction(tx);
-  const result = await protocol.zkVerify(proof, 'circuits/dist/zokrates/dev/Transaction2x2.vkey.gz');
+  const result = await protocol.zkVerify(
+    proof,
+    (await readCompressedFile('circuits/dist/zokrates/dev/Transaction2x2.vkey.gz')).toString(),
+  );
   expect(result).toBe(true);
 }, 60000);

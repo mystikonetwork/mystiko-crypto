@@ -1,4 +1,4 @@
-import { check, readCompressedFile, readJsonFile } from '@mystikonetwork/utils';
+import { check, readJsonFile } from '@mystikonetwork/utils';
 import { ProveOptions, VerifyOptions, ZKProof } from '@mystikonetwork/zkp';
 import { ZokratesWasmProver } from '@mystikonetwork/zkp-wasm';
 import { spawn } from 'child_process';
@@ -8,11 +8,10 @@ import os from 'os';
 import path from 'path';
 import { ZoKratesProvider } from '@mystikonetwork/zokrates-js';
 
-async function copyFile(tempDir: string, orig: string[], dest: string): Promise<string> {
-  check(orig.length > 0, 'file path cannot be empty');
-  const buffer = await readCompressedFile(orig);
-  fs.writeFileSync(path.join(tempDir, dest), buffer);
-  return Promise.resolve(path.join(tempDir, dest));
+function copyFile(tempDir: string, content: Buffer, dest: string): string {
+  check(content.length > 0, 'file content cannot be empty');
+  fs.writeFileSync(path.join(tempDir, dest), content);
+  return path.join(tempDir, dest);
 }
 
 function createTempDirectory(): string {
@@ -65,9 +64,9 @@ export class ZokratesNodeProver extends ZokratesWasmProver {
     if (cliExists) {
       const tempFolder: string = createTempDirectory();
       try {
-        const program = await copyFile(tempFolder, options.programFile, 'program');
-        const abi = await copyFile(tempFolder, options.abiFile, 'abi');
-        const provingKey = await copyFile(tempFolder, options.provingKeyFile, 'provingKeyFile');
+        const program = copyFile(tempFolder, options.program, 'program');
+        const abi = copyFile(tempFolder, Buffer.from(options.abi, 'utf8'), 'abi');
+        const provingKey = copyFile(tempFolder, options.provingKey, 'provingKeyFile');
         const flatArgs = options.inputs.flat(100).map(inputsToString).join(' ');
         const witness = path.join(tempFolder, 'witness');
         const circomWitness = path.join(tempFolder, 'circom.wtns');
@@ -99,7 +98,7 @@ export class ZokratesNodeProver extends ZokratesWasmProver {
     if (cliExists) {
       const tempFolder: string = createTempDirectory();
       try {
-        const verifyingKey = await copyFile(tempFolder, options.verifyingKeyFile, 'program');
+        const verifyingKey = copyFile(tempFolder, Buffer.from(options.verifyingKey, 'utf8'), 'program');
         const proof = path.join(tempFolder, 'proof.json');
         fs.writeFileSync(proof, JSON.stringify(options.proof));
         const verifyResultPromise = spawnProcess(

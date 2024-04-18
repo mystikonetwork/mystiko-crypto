@@ -1,4 +1,3 @@
-import { readCompressedFile, readJsonFile } from '@mystikonetwork/utils';
 import { ProveOptions, VerifyOptions, ZKProof, ZKProver } from '@mystikonetwork/zkp';
 import { CompilationArtifacts, VerificationKey, ZoKratesProvider } from '@mystikonetwork/zokrates-js';
 
@@ -9,17 +8,15 @@ export class ZokratesWasmProver implements ZKProver {
     this.zokratesProvider = zokratesProvider;
   }
 
-  public async prove(options: ProveOptions): Promise<ZKProof> {
-    const program = await readCompressedFile(options.programFile);
-    const abi = await readJsonFile(options.abiFile);
-    const provingKey = await readCompressedFile(options.provingKeyFile);
-    const artifacts: CompilationArtifacts = { program, abi };
+  public prove(options: ProveOptions): Promise<ZKProof> {
+    const { program, abi, provingKey } = options;
+    const artifacts: CompilationArtifacts = { program, abi: JSON.parse(abi) };
     const { witness } = this.zokratesProvider.computeWitness(artifacts, options.inputs);
     return Promise.resolve(this.zokratesProvider.generateProof(program, witness, provingKey));
   }
 
-  public async verify(options: VerifyOptions<ZKProof>): Promise<boolean> {
-    const verifyingKey: VerificationKey = (await readJsonFile(options.verifyingKeyFile)) as VerificationKey;
+  public verify(options: VerifyOptions<ZKProof>): Promise<boolean> {
+    const verifyingKey: VerificationKey = JSON.parse(options.verifyingKey);
     return Promise.resolve(this.zokratesProvider.verify(verifyingKey, options.proof));
   }
 }
