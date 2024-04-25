@@ -919,10 +919,10 @@
   resolved "https://npm.pkg.github.com/download/@mystikonetwork/fastfile/0.0.21/b3362f8527fa15a2d745c0b516c92d0a5ca0ceef4c2e103aac2d79305f0c4207#069a0d0d6a28a3f002fe97519456bbbd14880f9c"
   integrity sha512-o9vr4WoWEGord8+6ADBSulLO9arM2z0R5bOKj+GGPOFY/Zm8bg7alqRfuTvcxzll9TTk/rv7gDM4GnbBHhvyMA==
 
-"@mystikonetwork/utils@>=0.3.2":
-  version "0.3.2"
-  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.3.2/e5027e24654b1709b3ded8ea6c7566f79eb43dd4#e5027e24654b1709b3ded8ea6c7566f79eb43dd4"
-  integrity sha512-PfHWaqzKx4/OE+vBIbI5NYLE2pULdYtWZgRfOM2rYldhzrQISsNzurBz4fvsYF01/I0zRPU8sQ792xsAor8xGg==
+"@mystikonetwork/utils@>=0.3.3":
+  version "0.3.3"
+  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.3.3/687dd93012fbb3f57a50762d30c0cbf13cf29708#687dd93012fbb3f57a50762d30c0cbf13cf29708"
+  integrity sha512-uXZBjmb0pHY7cGFMnyosPEhtta5eyh99x0OAMs2GTp6KVWgCMUsXxJy4xdmRRBihk/vs2IrY56isBOqdmbAy0w==
   dependencies:
     "@mystikonetwork/fastfile" "^0.0.21"
     axios "^0.27.2"
