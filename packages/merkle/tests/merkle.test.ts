@@ -28,6 +28,7 @@ test('test constructor', () => {
   expect(tree2.elements().map((e) => e.toString())).toStrictEqual([element1.toString(), element2.toString()]);
   expect(tree2.indexOf(element1)).toBe(0);
   expect(tree2.indexOf(element2, (a, b) => a.eq(b))).toBe(1);
+  expect(tree2.leafAt(1)).toBe(element2);
   const tree3 = new MerkleTree([], { maxLevels: 1, zeroElement: toBN(0) });
   expect(tree3.root().toString()).toBe(MerkleTree.hash2(toBN(0), toBN(0)).toString());
 });
