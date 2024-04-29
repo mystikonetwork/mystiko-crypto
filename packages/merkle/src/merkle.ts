@@ -107,6 +107,11 @@ export class MerkleTree {
     return this.layers[0].findIndex((value) => value.eq(element));
   }
 
+  public leafAt(index: number): BN {
+    check(index >= 0 && index <= this.layers[0].length, `index out of bounds: ${index}`);
+    return this.layers[0][index];
+  }
+
   public static hash2(first: BN, second: BN): BN {
     return toBN(poseidon([first, second]).toString());
   }
