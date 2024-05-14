@@ -1,6 +1,6 @@
 {
   "name": "@mystikonetwork/secret-share",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Shamir Secret Share Implementation of Mystiko.Network",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
