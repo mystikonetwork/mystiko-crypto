@@ -12,7 +12,7 @@ beforeAll(async () => {
 });
 
 test('test zkProveRollup1', async () => {
-  const tree = new MerkleTree([toBN('100'), toBN('200'), toBN('300')], {
+  const tree = MerkleTree.fromLeaves([toBN('100'), toBN('200'), toBN('300')], {
     maxLevels: protocol.merkleTreeLevels,
   });
   const proof = await protocol.zkProveRollup({
@@ -31,7 +31,7 @@ test('test zkProveRollup1', async () => {
 }, 60000);
 
 test('test zkProveRollup2', async () => {
-  const tree = new MerkleTree([toBN('100'), toBN('200')], {
+  const tree = MerkleTree.fromLeaves([toBN('100'), toBN('200')], {
     maxLevels: protocol.merkleTreeLevels,
   });
   const proof = await protocol.zkProveRollup({
@@ -50,7 +50,7 @@ test('test zkProveRollup2', async () => {
 }, 60000);
 
 test('test zkProveRollup4', async () => {
-  const tree = new MerkleTree([toBN('100'), toBN('200'), toBN('300'), toBN('400')], {
+  const tree = MerkleTree.fromLeaves([toBN('100'), toBN('200'), toBN('300'), toBN('400')], {
     maxLevels: protocol.merkleTreeLevels,
   });
   const proof = await protocol.zkProveRollup({
@@ -79,7 +79,7 @@ test('test zkProveRollup4', async () => {
 }, 60000);
 
 test('test zkProveRollup8', async () => {
-  const tree = new MerkleTree(
+  const tree = MerkleTree.fromLeaves(
     [toBN('100'), toBN('200'), toBN('300'), toBN('400'), toBN('500'), toBN('600'), toBN('700'), toBN('800')],
     {
       maxLevels: protocol.merkleTreeLevels,
@@ -101,7 +101,7 @@ test('test zkProveRollup8', async () => {
 }, 60000);
 
 test('test zkProveRollup16', async () => {
-  const tree = new MerkleTree(
+  const tree = MerkleTree.fromLeaves(
     [
       toBN('100'),
       toBN('200'),

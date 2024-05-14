@@ -1,6 +1,6 @@
 {
   "name": "@mystikonetwork/protocol",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Core protocol of Mystiko.Network",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
@@ -34,7 +34,7 @@
     "prettier": "yarn prettier:fix"
   },
   "devDependencies": {
-    "@mystikonetwork/zkp-node": "^0.3.8",
+    "@mystikonetwork/zkp-node": "^0.3.9",
     "@tsconfig/recommended": "^1.0.1",
     "@types/bn.js": "^5.1.1",
     "@types/bs58": "^4.0.1",
@@ -60,11 +60,11 @@
   },
   "dependencies": {
     "@mystikonetwork/eccrypto": "^1.1.8",
-    "@mystikonetwork/ecies": "^0.3.8",
-    "@mystikonetwork/merkle": "^0.3.8",
-    "@mystikonetwork/secret-share": "^0.3.8",
+    "@mystikonetwork/ecies": "^0.3.9",
+    "@mystikonetwork/merkle": "^0.3.9",
+    "@mystikonetwork/secret-share": "^0.3.9",
     "@mystikonetwork/utils": ">=0.3.3",
-    "@mystikonetwork/zkp": "^0.3.8",
+    "@mystikonetwork/zkp": "^0.3.9",
     "@shopify/web-worker": "^6.0.5",
     "blake-hash": "^2.0.0",
     "bn.js": "^5.2.0",

@@ -43,7 +43,7 @@ async function generateTransaction(
   const inCommitmentsAll = await Promise.all(inCommitmentsPromises);
   const inCommitments = inCommitmentsAll.map((all) => all.commitmentHash);
   const inPrivateNotes = inCommitmentsAll.map((all) => all.encryptedNote);
-  const merkleTree = new MerkleTree(inCommitments, { maxLevels: p.merkleTreeLevels });
+  const merkleTree = MerkleTree.fromLeaves(inCommitments, { maxLevels: p.merkleTreeLevels });
   const allPaths: { pathElements: BN[]; pathIndices: number[] }[] = [];
   for (let i = 0; i < inCommitments.length; i += 1) {
     allPaths.push(merkleTree.path(i));
