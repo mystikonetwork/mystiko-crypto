@@ -917,8 +917,8 @@
 
 "@mystikonetwork/utils@>=0.3.4":
   version "0.3.4"
-  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.3.4/b8fb4258e63263935057581d5f678251392faccb#b8fb4258e63263935057581d5f678251392faccb"
-  integrity sha512-bNzXL7NBbKcwgx5bilEhHoGFWa2ikPL/qFZrsWZpXx9ZfEOekvziM4wzMiKEqqH74FW1/Rl7TQSL3AoNLLMWRw==
+  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.3.4/fb6720fbc3c0d2872a0518aa7d9c5164c4ef5270#fb6720fbc3c0d2872a0518aa7d9c5164c4ef5270"
+  integrity sha512-IXtIrsKONxTez9bJzP9DGYISIgvzgkSZiAbX+8K4pNk+YMhyfoDil9L2P2RB8/TCWcgbhPuEdaEh3OH0JRt5sQ==
   dependencies:
     "@mystikonetwork/fastfile" "^0.0.21"
     axios "^0.27.2"
