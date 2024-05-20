@@ -876,15 +876,16 @@
   resolved "https://npm.pkg.github.com/download/@mystikonetwork/fastfile/0.0.21/b3362f8527fa15a2d745c0b516c92d0a5ca0ceef4c2e103aac2d79305f0c4207#069a0d0d6a28a3f002fe97519456bbbd14880f9c"
   integrity sha512-o9vr4WoWEGord8+6ADBSulLO9arM2z0R5bOKj+GGPOFY/Zm8bg7alqRfuTvcxzll9TTk/rv7gDM4GnbBHhvyMA==
 
-"@mystikonetwork/utils@>=0.3.3":
-  version "0.3.3"
-  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.3.3/687dd93012fbb3f57a50762d30c0cbf13cf29708#687dd93012fbb3f57a50762d30c0cbf13cf29708"
-  integrity sha512-uXZBjmb0pHY7cGFMnyosPEhtta5eyh99x0OAMs2GTp6KVWgCMUsXxJy4xdmRRBihk/vs2IrY56isBOqdmbAy0w==
+"@mystikonetwork/utils@>=0.3.4":
+  version "0.3.4"
+  resolved "https://npm.pkg.github.com/download/@mystikonetwork/utils/0.3.4/b8fb4258e63263935057581d5f678251392faccb#b8fb4258e63263935057581d5f678251392faccb"
+  integrity sha512-bNzXL7NBbKcwgx5bilEhHoGFWa2ikPL/qFZrsWZpXx9ZfEOekvziM4wzMiKEqqH74FW1/Rl7TQSL3AoNLLMWRw==
   dependencies:
     "@mystikonetwork/fastfile" "^0.0.21"
     axios "^0.27.2"
     bn.js "^5.2.0"
     ethers "^5.5.3"
+    js-sha512 "^0.9.0"
     loglevel "^1.8.0"
     loglevel-plugin-prefix "^0.8.4"
     pako "^2.0.4"
@@ -2991,6 +2992,11 @@ js-sha3@0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.8.0.tgz#b9b7a5da73afad7dedd0f8c463954cbde6818840"
   integrity sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==
+
+js-sha512@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/js-sha512/-/js-sha512-0.9.0.tgz#ed569aa1e4bdaf0b83363c29db1ab87b1192d9ae"
+  integrity sha512-mirki9WS/SUahm+1TbAPkqvbCiCfOAAsyXeHxK1UkullnJVVqoJG2pL9ObvT05CN+tM7fxhfYm0NbXn+1hWoZg==
 
 js-tokens@^4.0.0:
   version "4.0.0"
