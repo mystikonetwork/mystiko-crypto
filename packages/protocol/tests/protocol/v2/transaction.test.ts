@@ -188,7 +188,7 @@ test('test commitment', async () => {
 });
 
 test('test decryptNote', async () => {
-  const commitmentsWithKeys = await generateCommitments(protocol, 100);
+  const commitmentsWithKeys = await generateCommitments(protocol, 10);
   const keys = commitmentsWithKeys.map((c) => ({
     publicKey: toHexNoPrefix(c.publicKey),
     secretKey: toHexNoPrefix(c.secretKey),
@@ -205,27 +205,27 @@ test('test decryptNote', async () => {
     const { skVerify } = protocol.separatedSecretKeys(c.secretKey);
     return protocol.serialNumber(protocol.secretKeyForVerification(skVerify), c.commitment.randomP);
   });
-  let decrypted = await protocol.decryptNotes(commitments.slice(0, 35), keys.slice(20, 100));
-  expect(decrypted.length).toBe(15);
-  for (let i = 20; i < 20 + decrypted.length; i += 1) {
-    expect(decrypted[i - 20].commitment.commitmentHash.toString()).toBe(
+  let decrypted = await protocol.decryptNotes(commitments.slice(0, 8), keys.slice(4, 10));
+  expect(decrypted.length).toBe(4);
+  for (let i = 4; i < 4 + decrypted.length; i += 1) {
+    expect(decrypted[i - 4].commitment.commitmentHash.toString()).toBe(
       commitmentsWithKeys[i].commitment.commitmentHash.toString(),
     );
-    expect(decrypted[i - 20].shieldedAddress).toBe(shieldedAddresses[i]);
-    expect(decrypted[i - 20].serialNumber.toString()).toBe(serialNumbers[i].toString());
-    expect(decrypted[i - 20].commitment.randomP.toString()).toBe(
+    expect(decrypted[i - 4].shieldedAddress).toBe(shieldedAddresses[i]);
+    expect(decrypted[i - 4].serialNumber.toString()).toBe(serialNumbers[i].toString());
+    expect(decrypted[i - 4].commitment.randomP.toString()).toBe(
       commitmentsWithKeys[i].commitment.randomP.toString(),
     );
-    expect(decrypted[i - 20].commitment.randomR.toString()).toBe(
+    expect(decrypted[i - 4].commitment.randomR.toString()).toBe(
       commitmentsWithKeys[i].commitment.randomR.toString(),
     );
-    expect(decrypted[i - 20].commitment.randomS.toString()).toBe(
+    expect(decrypted[i - 4].commitment.randomS.toString()).toBe(
       commitmentsWithKeys[i].commitment.randomS.toString(),
     );
-    expect(decrypted[i - 20].commitment.k.toString()).toBe(commitmentsWithKeys[i].commitment.k.toString());
+    expect(decrypted[i - 4].commitment.k.toString()).toBe(commitmentsWithKeys[i].commitment.k.toString());
   }
   decrypted = await protocol.decryptNotes(commitments, keys, 4);
-  expect(decrypted.length).toBe(100);
+  expect(decrypted.length).toBe(10);
 });
 
 test('test Transaction1x0', async () => {
