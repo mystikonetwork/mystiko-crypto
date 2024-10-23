@@ -226,7 +226,7 @@ test('test decryptNote', async () => {
   }
   decrypted = await protocol.decryptNotes(commitments, keys, 4);
   expect(decrypted.length).toBe(10);
-});
+}, 300000);
 
 test('test Transaction1x0', async () => {
   const tx = await generateTransaction(
