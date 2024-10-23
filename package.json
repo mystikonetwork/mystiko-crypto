@@ -1,19 +1,12 @@
 {
   "name": "mystiko-crypto",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "description": "Cryptograhy related code of Mystiko.Network",
   "private": true,
   "repository": "https://github.com/mystikonetwork/mystiko-crypto",
   "author": "Fitch",
   "license": "MIT",
-  "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
-    "lint": "lerna run lint",
-    "test": "lerna run test",
-    "deploy": "lerna run deploy"
-  },
-  "devDependencies": {
-    "lerna": "^3.20.2"
-  }
+  "workspaces": [
+    "packages/*"
+  ]
 }
